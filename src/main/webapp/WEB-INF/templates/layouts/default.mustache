@@ -4,19 +4,24 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- load MUI -->
         <link href="/css/mui.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/deploy.css" rel="stylesheet" type="text/css"/>
         <script src="/js/mui.min.js"></script>
         {{#head}}
             {{title}}
         {{/head}}
     </head>
     <body>
+    <header>
+        <nav class="mui-appbar mui--text-title">
+            <ul class="mui--appbar-line-height mui-list--inline">
+                <li>Deploy</li>
+                <li>Home</li>
+            </ul>
+        </nav>
+    </header>
     <div class="mui-container">
         <div class="mui-panel">
-            <h1>Deploy</h1>
-            <h2>Something something catchy tagline</h2>
-            <nav></nav>
             <main>
                 {{#body}}
                     {{_}}
