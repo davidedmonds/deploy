@@ -1,0 +1,29 @@
+<html>
+{{#html}}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- load MUI -->
+        <link href="/css/mui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="/js/mui.min.js"></script>
+        {{#head}}
+            {{title}}
+        {{/head}}
+    </head>
+    <body>
+    <div class="mui-container">
+        <div class="mui-panel">
+            <h1>Deploy</h1>
+            <h2>Sometihng something catchy tagline</h2>
+            <nav></nav>
+            <main>
+                {{#body}}
+                    {{_}}
+                {{/body}}
+            </main>
+        </div>
+    </div>
+    </body>
+{{/html}}
+</html>
