@@ -67,3 +67,7 @@ jrebel.lic
 
 # paulp script
 /.lib/
+
+# H2 database
+*.db.mv.db
+*.db.trace.db
