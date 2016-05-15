@@ -1,5 +1,23 @@
 body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
+    background-color: #eee;
+}
+.mui-appbar {
+    background-color: #673AB7;
+    box-shadow: 0 2px 5px rgba(0,0,0,.26);
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.action {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.mui-btn--primary {
+    background-color: #673AB7;
+}
+.mui-btn--primary:hover {
+    background-color: #7E57C2;
 }
 /* FONTS BELOW THIS POINT */
 /* roboto-300 - latin */
