@@ -25,6 +25,8 @@ object DeployBuild extends Build {
       resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
       libraryDependencies ++= Seq(
         "io.getquill" % "quill_2.11" % "0.6.0",
+        "com.h2database" % "h2" % "1.4.191",
+        "org.flywaydb" % "flyway-core" % "4.0.1",
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalatest" % ScalatraVersion % "test",
