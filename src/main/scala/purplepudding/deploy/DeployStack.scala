@@ -10,6 +10,7 @@ import collection.mutable
 trait DeployStack extends ScalatraServlet with ScalateSupport {
 
   notFound {
+    log(s"A swing and a miss... ${requestPath}")
     // remove content type in case it was set through an action
     contentType = null
     // Try to render a ScalateTemplate if no route matched
