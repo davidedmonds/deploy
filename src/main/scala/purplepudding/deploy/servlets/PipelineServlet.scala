@@ -2,11 +2,9 @@ package purplepudding.deploy.servlets
 
 import purplepudding.deploy.DeployStack
 import purplepudding.deploy.domain.Pipeline
-import purplepudding.deploy.queries.PipelineQueries
 import purplepudding.deploy.services.PipelineService
 
-class PipelineServlet extends DeployStack {
-  val pipelineService = new PipelineService(PipelineQueries.findAllPipelines)
+class PipelineServlet(val pipelineService: PipelineService) extends DeployStack {
 
   get("/view") {
     contentType = "text/html"
@@ -19,7 +17,7 @@ class PipelineServlet extends DeployStack {
   }
 
   post("/add") {
-    pipelineService.addPipeline(Pipeline(params("name")))
+    pipelineService.addPipeline(Pipeline(name = params("name")))
     redirect("/pipelines/view")
   }
 }

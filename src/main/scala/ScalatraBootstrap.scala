@@ -1,27 +1,31 @@
-import purplepudding.deploy._
-import org.scalatra._
+import java.sql.DriverManager
 import javax.servlet.ServletContext
 
-import io.getquill.util.Config
+import com.typesafe.config.ConfigFactory
 import org.flywaydb.core.Flyway
+import org.scalatra._
+import purplepudding.deploy._
+import purplepudding.deploy.dao.DAO
+import purplepudding.deploy.services.PipelineService
 import purplepudding.deploy.servlets.PipelineServlet
 
 class ScalatraBootstrap extends LifeCycle {
+  val config = ConfigFactory.defaultApplication()
+
   override def init(context: ServletContext) {
     migrateDb()
 
+    Class.forName("org.h2.Driver");
+    val conn = DriverManager.getConnection(config.getString("db.url"), "", "")
+    val dao = new DAO(conn)
+
     context.mount(new DeployServlet, "/*")
-    context.mount(new PipelineServlet, "/pipelines/*")
+    context.mount(new PipelineServlet(new PipelineService(dao)), "/pipelines/*")
   }
 
-  private def migrateDb() {
-    val dbConf = Config("db")
+  private def migrateDb(): Unit = {
     val flyway = new Flyway()
-    flyway.setDataSource(
-      dbConf.getString("dataSource.url"),
-      dbConf.getString("dataSource.user"),
-      dbConf.getString("dataSource.password")
-    )
+    flyway.setDataSource(config.getString("db.url"), "", "")
     flyway.migrate()
   }
 }

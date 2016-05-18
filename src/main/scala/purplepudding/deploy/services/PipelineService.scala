@@ -1,10 +1,10 @@
 package purplepudding.deploy.services
 
+import purplepudding.deploy.dao.DAO
 import purplepudding.deploy.domain.Pipeline
-import purplepudding.deploy.queries.PipelineQueries
 
-class PipelineService(getAllPipelinesQuery: () => Seq[Pipeline]) {
-  def addPipeline(pipeline: Pipeline) = PipelineQueries.addPipelineQuery(pipeline)
+class PipelineService(dao: DAO) {
+  def addPipeline(pipeline: Pipeline) = dao.addPipeline(pipeline)
 
-  def pipelines: Seq[Pipeline] = getAllPipelinesQuery()
+  def pipelines: Seq[Pipeline] = dao.allPipelines
 }
