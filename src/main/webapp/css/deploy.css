@@ -16,8 +16,25 @@ body {
 .mui-btn--primary {
     background-color: #673AB7;
 }
-.mui-btn--primary:hover {
+.mui-btn--primary:hover, .mui-btn--primary:active, .mui-btn--primary:focus {
     background-color: #7E57C2;
+}
+#stage-form-template {
+    display: none;
+}
+#stages {
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+}
+#stages > div {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 0;
+    background-color: #FFF;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 2px 0 rgba(0,0,0,.12);
+    display: inline-block;
+    width: 100%;
 }
 /* FONTS BELOW THIS POINT */
 /* roboto-300 - latin */

@@ -1,11 +1,9 @@
 package purplepudding.deploy.servlets
 
-import purplepudding.deploy.DeployStack
 import purplepudding.deploy.domain.Pipeline
 import purplepudding.deploy.services.PipelineService
 
 class PipelineServlet(val pipelineService: PipelineService) extends DeployStack {
-
   get("/view") {
     contentType = "text/html"
     mustache("/pipelines/view", ("pipelines", pipelineService.pipelines))
@@ -18,6 +16,20 @@ class PipelineServlet(val pipelineService: PipelineService) extends DeployStack 
 
   post("/add") {
     pipelineService.addPipeline(Pipeline(name = params("name")))
+    redirect("/pipelines/view")
+  }
+
+  get("/edit/:id") {
+    val pipeline = pipelineService.get(params("id").toLong)
+    contentType = "text/html"
+    mustache("/pipelines/edit",
+      ("pipeline", pipeline),
+      ("stageCount", pipeline.stages.map(_.id).fold(0L)(Math.max) + 1)
+    )
+  }
+
+  post("/edit/:id") {
+    pipelineService.update(multiParams)
     redirect("/pipelines/view")
   }
 }

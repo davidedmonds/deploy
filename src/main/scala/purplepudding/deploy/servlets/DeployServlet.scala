@@ -1,4 +1,4 @@
-package purplepudding.deploy
+package purplepudding.deploy.servlets
 
 class DeployServlet extends DeployStack {
   get("/") {

@@ -7,7 +7,7 @@ import org.scalatra._
 import purplepudding.deploy._
 import purplepudding.deploy.dao.DAO
 import purplepudding.deploy.services.PipelineService
-import purplepudding.deploy.servlets.PipelineServlet
+import purplepudding.deploy.servlets.{DeployServlet, PipelineServlet}
 
 class ScalatraBootstrap extends LifeCycle {
   val config = ConfigFactory.defaultApplication()
