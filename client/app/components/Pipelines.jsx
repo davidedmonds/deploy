@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Button from 'muicss/lib/react/button';
 import Panel from 'muicss/lib/react/panel';
 
-import PipelineStore from '../../stores/PipelineStore'
+import PipelineStore from '../stores/PipelineStore'
 
 class Pipelines extends React.Component {
   static getStores() {

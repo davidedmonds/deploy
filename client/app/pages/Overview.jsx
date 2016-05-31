@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'muicss/lib/react/button';
-import Pipelines from './Pipelines'
+import Pipelines from '../components/Pipelines'
 
 export default class Overview extends React.Component {
   render() {

@@ -3,7 +3,7 @@ import Container from 'muicss/lib/react/container';
 
 import Menu from './Menu'
 import Footer from './Footer'
-import Overview from './pages/Overview'
+import Overview from '../pages/Overview'
 
 export default class App extends React.Component {
   render() {

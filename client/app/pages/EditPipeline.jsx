@@ -7,9 +7,9 @@ import Panel from 'muicss/lib/react/panel';
 
 import { Container } from 'flux/utils';
 
-import PipelineStore from '../../stores/PipelineStore'
-import Pipelines from './Pipelines'
-import StageForm from './StageForm'
+import PipelineStore from '../stores/PipelineStore'
+import Pipelines from '../components/Pipelines'
+import StageForm from '../components/StageForm'
 
 class EditPipeline extends React.Component {
   static getStores() {
