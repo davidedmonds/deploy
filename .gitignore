@@ -71,3 +71,7 @@ jrebel.lic
 # H2 database
 *.db.mv.db
 *.db.trace.db
+
+# Client App
+client/node_modules
+client/public

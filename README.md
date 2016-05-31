@@ -1,12 +1,9 @@
 # Deploy #
 
-## Build & Run ##
+Continuous Delivery server.
 
-```sh
-$ cd Deploy
-$ ./sbt
-> jetty:start
-> browse
-```
+## Subprojects ##
 
-If `browse` doesn't launch your browser, manually open [http://localhost:8080/](http://localhost:8080/) in your browser.
+- Client - React client-side JS app for visualising pipelines and builds.
+- Server - Core of the system, this orchestrates the build process.
+- Agent - Workhorse of the system, these run the actual pipelines and builds.
