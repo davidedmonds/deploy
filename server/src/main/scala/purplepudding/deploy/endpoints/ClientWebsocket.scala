@@ -1,34 +1,30 @@
 package purplepudding.deploy.endpoints
 
+import java.io.StringWriter
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import purplepudding.deploy.JsonMarshal
+import purplepudding.deploy.domain.{Message, Pipeline, Stage, State}
+
 @ServerEndpoint("/client")
 class ClientWebsocket {
+  val state = State(Seq(
+    Pipeline("pipe-one", Seq(
+      Stage("stage-one")
+    )),
+    Pipeline("pipe-two", Seq(
+      Stage("stage-uno"),
+      Stage("stage-dos")
+    ))))
+
+  val jsonMarshal = new JsonMarshal
 
   @OnOpen
   def onOpen(session: Session): Unit = {
-    session.getBasicRemote.sendText( //TODO get a decent JSON library for Scala
-      """
-        |{
-        |  "type" : "completeState",
-        |  "data" : {
-        |    "pipelines" : [{
-        |      "name" : "pipe-one",
-        |      "stages" : [{
-        |        "name": "stage-one"
-        |      }]
-        |    }, {
-        |      "name" : "pipe-two",
-        |      "stages" : [{
-        |        "name": "stage-uno"
-        |      }, {
-        |        "name": "stage-dos"
-        |      }]
-        |    }]
-        |  }
-        |}
-      """.stripMargin)
+    session.getBasicRemote.sendText(jsonMarshal.messageString("completeState", state))
   }
 
   @OnMessage
@@ -38,6 +34,6 @@ class ClientWebsocket {
 
   @OnClose
   def onClose(session: Session, closeReason: CloseReason): Unit = {
-    println(session, closeReason)
+//    println(session, closeReason)
   }
 }

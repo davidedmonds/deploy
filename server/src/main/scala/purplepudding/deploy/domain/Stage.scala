@@ -1,3 +1,3 @@
 package purplepudding.deploy.domain
 
-case class Stage(id: Long, name: String)
+case class Stage(name: String)

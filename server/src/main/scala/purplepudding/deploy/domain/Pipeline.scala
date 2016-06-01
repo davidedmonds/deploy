@@ -1,3 +1,3 @@
 package purplepudding.deploy.domain
 
-case class Pipeline(id: Option[Long] = None, name: String, stages: Seq[Stage] = Seq())
+case class Pipeline(name: String, stages: Seq[Stage])
