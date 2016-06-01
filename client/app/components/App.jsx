@@ -10,6 +10,7 @@ export default class App extends React.Component {
     return (
       <div id="content">
         <Menu />
+        <div className="mui--appbar-min-height">&nbsp;</div>
         <Container fluid={true}>
           {this.props.children}
         </Container>

@@ -5,6 +5,7 @@ import Button from 'muicss/lib/react/button';
 import Panel from 'muicss/lib/react/panel';
 
 import PipelineStore from '../stores/PipelineStore'
+import StageVisualiser from '../components/StageVisualiser'
 
 class Pipelines extends React.Component {
   static getStores() {
@@ -20,11 +21,12 @@ class Pipelines extends React.Component {
   render() {
     return (
       <div>{
-        this.state.pipelines.map(function(pipeline, idx) {
+        this.state.pipelines.map((pipeline, idx) => {
           return (
             <Panel key={idx}>
               <h2>{pipeline.name}</h2>
               <hr/>
+              <StageVisualiser stages={pipeline.stages} />
               <hr/>
               <Link to={"/pipeline/edit/" + pipeline.name}>
                 <Button color="primary">Edit Pipeline</Button>

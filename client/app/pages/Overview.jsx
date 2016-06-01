@@ -8,7 +8,7 @@ export default class Overview extends React.Component {
       <div>
         <Pipelines />
         <div className="action">
-          <Button variant="fab" color="primary">+</Button>
+          <Button variant="fab" color="accent">+</Button>
         </div>
       </div>
     );
