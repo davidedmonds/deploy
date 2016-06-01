@@ -8,23 +8,19 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import purplepudding.deploy.JsonMarshal
 import purplepudding.deploy.domain.{Message, Pipeline, Stage, State}
+import purplepudding.deploy.services.PipelineService
 
 @ServerEndpoint("/client")
 class ClientWebsocket {
-  val state = State(Seq(
-    Pipeline("pipe-one", Seq(
-      Stage("stage-one")
-    )),
-    Pipeline("pipe-two", Seq(
-      Stage("stage-uno"),
-      Stage("stage-dos")
-    ))))
-
   val jsonMarshal = new JsonMarshal
+  val pipelines = new PipelineService
+
+  var sessions = Set[Session]()
 
   @OnOpen
   def onOpen(session: Session): Unit = {
-    session.getBasicRemote.sendText(jsonMarshal.messageString("completeState", state))
+    sessions += session
+    session.getBasicRemote.sendText(jsonMarshal.messageString("completeState", State(pipelines.get)))
   }
 
   @OnMessage
@@ -34,6 +30,6 @@ class ClientWebsocket {
 
   @OnClose
   def onClose(session: Session, closeReason: CloseReason): Unit = {
-//    println(session, closeReason)
+    sessions -= session
   }
 }
