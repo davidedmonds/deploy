@@ -17,19 +17,10 @@
  *
  */
 
-package purplepudding.deploy
+package purplepudding.deploy.triggers
 
-import purplepudding.deploy.triggers.Trigger
+trait Trigger {
+  val name: String
 
-class Core {
-  var triggers = Seq[Trigger]()
-
-  def add(trigger: Trigger): Unit = {
-    triggers = triggers :+ trigger
-    trigger.fire()
-  }
-
-  def update() = {
-    triggers.foreach(_.fire())
-  }
+  def fire(): Unit
 }

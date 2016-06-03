@@ -17,19 +17,25 @@
  *
  */
 
-package purplepudding.deploy
+package purplepudding.deploy.triggers
 
-import purplepudding.deploy.triggers.Trigger
+import purplepudding.deploy.domain.Pipeline
 
-class Core {
-  var triggers = Seq[Trigger]()
+class TimedTrigger(val frequency: Long, val pipelines: Seq[Pipeline])
+                  (val currentTimeMillis: () => Long = System.currentTimeMillis) extends Trigger {
+  val name = "Timed Trigger"
 
-  def add(trigger: Trigger): Unit = {
-    triggers = triggers :+ trigger
-    trigger.fire()
-  }
+  var timeElapsed = 0L
+  var lastCheck = currentTimeMillis()
 
-  def update() = {
-    triggers.foreach(_.fire())
+  override def fire(): Unit = {
+    val currentTime = currentTimeMillis()
+    timeElapsed += currentTime - lastCheck
+    lastCheck = currentTime
+
+    if (timeElapsed >= frequency) {
+      pipelines.foreach(_.launch(currentTime.toString))
+      timeElapsed = 0
+    }
   }
 }

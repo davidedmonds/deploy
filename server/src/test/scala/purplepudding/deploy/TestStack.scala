@@ -20,9 +20,10 @@
 package purplepudding.deploy
 
 import org.scalatest.{ShouldMatchers, path}
+import purplepudding.deploy.domain.Pipeline
+import purplepudding.deploy.triggers.Trigger
 
 trait TestStack extends path.FreeSpec with ShouldMatchers {
-
   protected class MockTrigger extends Trigger {
     val name = "name"
     var fireCalled = false
@@ -34,4 +35,27 @@ trait TestStack extends path.FreeSpec with ShouldMatchers {
     }
   }
 
+  protected class MockPipeline extends Pipeline {
+    var launched = false
+    var launchArguments = Array[String]()
+
+    override def launch(label: String): Unit = {
+      launchArguments = launchArguments :+ label
+      launched = true
+    }
+
+    def reset() = {
+      launched = false
+      launchArguments = Array[String]()
+    }
+  }
+
+  protected class MockTime(startTime: Long = 0, increment: Long = 0) {
+    var callCount = 0
+
+    def mock() = {
+      callCount += 1
+      startTime + (increment * callCount)
+    }
+  }
 }
