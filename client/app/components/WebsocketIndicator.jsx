@@ -31,6 +31,7 @@ export default class WebsocketIndicator extends React.Component {
       this.setState({connected: true})
     };
     websocket.onmessage = event => {
+      console.log(event.data)
       DeployDispatcher.handleViewAction(JSON.parse(event.data))
     }
     websocket.onerror = () => {
