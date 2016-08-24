@@ -17,9 +17,10 @@
  *
  */
 
-package purplepudding.deploy
+package purplepudding.deploy.triggers
 
-import org.scalatest.mock.MockitoSugar
-import org.scalatest.{ShouldMatchers, path}
+trait Trigger {
+  val name: String
 
-trait TestStack extends path.FreeSpec with ShouldMatchers with MockitoSugar
+  def fire(): Unit
+}

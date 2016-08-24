@@ -26,6 +26,6 @@ libraryDependencies ++= Seq(
 )
 scalacOptions := Seq("-Xexperimental")
 mainClass in assembly := Some("purplepudding.deploy.Deploy")
-assemblyJarName in assembly := "inventory.jar"
+assemblyJarName in assembly := "deploy.jar"
 
 enablePlugins(JettyPlugin)

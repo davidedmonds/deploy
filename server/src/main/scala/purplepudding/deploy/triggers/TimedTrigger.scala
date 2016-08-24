@@ -17,9 +17,25 @@
  *
  */
 
-package purplepudding.deploy
+package purplepudding.deploy.triggers
 
-import org.scalatest.mock.MockitoSugar
-import org.scalatest.{ShouldMatchers, path}
+import purplepudding.deploy.domain.Pipeline
 
-trait TestStack extends path.FreeSpec with ShouldMatchers with MockitoSugar
+class TimedTrigger(val frequency: Long, val pipelines: Seq[Pipeline])
+                  (val currentTimeMillis: () => Long = System.currentTimeMillis) extends Trigger {
+  val name = "Timed Trigger"
+
+  var timeElapsed = 0L
+  var lastCheck = currentTimeMillis()
+
+  override def fire(): Unit = {
+    val currentTime = currentTimeMillis()
+    timeElapsed += currentTime - lastCheck
+    lastCheck = currentTime
+
+    if (timeElapsed >= frequency) {
+      pipelines.foreach(_.launch(currentTime.toString))
+      timeElapsed = 0
+    }
+  }
+}

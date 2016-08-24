@@ -19,8 +19,6 @@
 
 package purplepudding.deploy
 
-import org.eclipse.jetty.annotations.AnnotationConfiguration
-import org.eclipse.jetty.plus.webapp.{EnvConfiguration, PlusConfiguration}
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.DefaultServlet
 import org.eclipse.jetty.webapp._

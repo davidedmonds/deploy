@@ -19,7 +19,17 @@
 
 package purplepudding.deploy
 
-import org.scalatest.mock.MockitoSugar
-import org.scalatest.{ShouldMatchers, path}
+import purplepudding.deploy.triggers.Trigger
 
-trait TestStack extends path.FreeSpec with ShouldMatchers with MockitoSugar
+class Core {
+  var triggers = Seq[Trigger]()
+
+  def add(trigger: Trigger): Unit = {
+    triggers = triggers :+ trigger
+    trigger.fire()
+  }
+
+  def update() = {
+    triggers.foreach(_.fire())
+  }
+}
