@@ -1,0 +1,5 @@
+client/node_modules/
+server/.idea/
+server/project/project/
+server/project/target/
+server/target/
