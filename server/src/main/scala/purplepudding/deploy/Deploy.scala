@@ -26,22 +26,28 @@ import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainer
 import org.scalatra.servlet.ScalatraListener
 import purplepudding.deploy.servlet.SocketServlet
 
-object Deploy extends App {
-  val port = if (System.getenv("PORT") != null) System.getenv("PORT").toInt else 8080
+object Deploy extends App with Logging {
+  val port = if (System.getenv("PORT") != null) System.getenv("PORT").toInt else 54321
 
+  log(s"Building server to run on port ${port}")
   val server = new Server(port)
   val context = new WebAppContext()
 
+  log("Building Context")
   context.setContextPath("/")
   context.setResourceBase("src/main/webapp")
   context.addEventListener(new ScalatraListener)
   context.addServlet(classOf[DefaultServlet], "/")
   server.setHandler(context)
+  log("Context built")
 
+  log("Adding WebSocket Servlets")
   val container = WebSocketServerContainerInitializer.configureContext(context)
   container.addEndpoint(classOf[SocketServlet])
 
+  log(s"Starting server on port ${port}")
   server.start()
+  log("Server started")
   server.dump(System.err)
   server.join()
 }

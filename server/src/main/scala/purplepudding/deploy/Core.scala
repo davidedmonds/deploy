@@ -19,17 +19,6 @@
 
 package purplepudding.deploy
 
-import purplepudding.deploy.triggers.Trigger
-
 class Core {
-  var triggers = Seq[Trigger]()
 
-  def add(trigger: Trigger): Unit = {
-    triggers = triggers :+ trigger
-    trigger.fire()
-  }
-
-  def update() = {
-    triggers.foreach(_.fire())
-  }
 }

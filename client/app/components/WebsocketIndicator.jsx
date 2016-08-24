@@ -26,7 +26,7 @@ export default class WebsocketIndicator extends React.Component {
   }
 
   componentDidMount() {
-    var websocket = new WebSocket("ws://localhost:8025/client")
+    var websocket = new WebSocket("ws://localhost:54321/socket")
     websocket.onopen = event => {
       this.setState({connected: true})
     };

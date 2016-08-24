@@ -26,7 +26,7 @@ import javax.crypto.spec.PBEKeySpec
 import scala.util.Random
 
 object DBConstants {
-  val DB_HOST: String = "192.168.99.100"
+  val DB_HOST: String = "localhost"
   val DB_PORT: Int = 28015
   val DB_NAME: String = "deploy" //TODO externalise
 
