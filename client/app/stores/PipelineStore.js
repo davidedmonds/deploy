@@ -37,7 +37,7 @@ class PipelineStore extends ReduceStore<Array> {
   reduce(state, action) {
     switch (action.action.type) {
       case CompleteState:
-        return action.action.data.pipelines;
+        return action.action.payload.pipelines;
       default:
         console.log("Recieved Unhandled Action", action)
         return state;

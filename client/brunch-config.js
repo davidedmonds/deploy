@@ -32,6 +32,10 @@ module.exports = {
     }
   },
 
+  server: {
+    hostname: "0.0.0.0"
+  },
+
   plugins: {
     babel: {presets: ['es2015', 'react']}
   }

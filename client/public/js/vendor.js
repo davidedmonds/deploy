@@ -34446,8 +34446,8 @@ module.exports = warning;
 require.alias("react/react.js", "react");
 require.alias("react-router/lib/index.js", "react-router");
 require.alias("invariant/browser.js", "invariant");
-require.alias("warning/browser.js", "warning");
 require.alias("immutable/dist/immutable.js", "immutable");
+require.alias("warning/browser.js", "warning");
 require.alias("process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');

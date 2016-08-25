@@ -22,24 +22,30 @@ package purplepudding.deploy.servlet
 import javax.websocket.server.ServerEndpoint
 
 import org.json4s.{DefaultFormats, Formats}
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.{read, write}
 import javax.websocket.{CloseReason, OnClose, OnMessage, OnOpen, Session}
 
 import purplepudding.deploy.Logging
+import purplepudding.deploy.service.PipelineService
 
 import scala.collection.mutable
 
-@ServerEndpoint("/socket")
-class SocketServlet extends Logging {
+@ServerEndpoint("/client")
+class ClientSocket(pipelineService: PipelineService) extends Logging {
   implicit lazy val jsonFormats: Formats = DefaultFormats
   val sessions = new mutable.ListBuffer[Session]
-  log("SocketServlet started")
+  log("ClientSocket started")
 
-//  val pipelines = new PipelineService
+  // Ghetto DI goes here
+  def this() {
+    this(new PipelineService)
+  }
 
   @OnOpen
   def onOpen(session: Session): Unit = {
+    session.getBasicRemote.sendText(write(pipelineService.completeState))
     sessions += session
-//    session.getBasicRemote.sendText(jsonMarshal.messageString("completeState", State(pipelines.get)))
   }
 
   @OnMessage

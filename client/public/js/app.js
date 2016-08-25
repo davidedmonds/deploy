@@ -840,7 +840,9 @@ var WebsocketIndicator = function (_React$Component) {
       var _this2 = this,
           _arguments = arguments;
 
-      var websocket = new WebSocket("ws://localhost:54321/socket");
+      //TODO move this into a store eventually
+      var websocket = new WebSocket("ws://localhost:54321/client");
+
       websocket.onopen = function (event) {
         _this2.setState({ connected: true });
       };
@@ -1259,7 +1261,7 @@ var PipelineStore = function (_ReduceStore) {
     value: function reduce(state, action) {
       switch (action.action.type) {
         case _DeployConstants.CompleteState:
-          return action.action.data.pipelines;
+          return action.action.payload.pipelines;
         default:
           console.log("Recieved Unhandled Action", action);
           return state;

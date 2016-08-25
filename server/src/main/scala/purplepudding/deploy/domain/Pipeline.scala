@@ -1,5 +1,3 @@
 package purplepudding.deploy.domain
 
-abstract class Pipeline {
-  def launch(toString: String): Unit = {}
-}
+case class Pipeline(name: String, stages: Seq[Stage])

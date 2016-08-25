@@ -27,5 +27,6 @@ libraryDependencies ++= Seq(
 scalacOptions := Seq("-Xexperimental")
 mainClass in assembly := Some("purplepudding.deploy.Deploy")
 assemblyJarName in assembly := "deploy.jar"
+fork in run := true
 
 enablePlugins(JettyPlugin)
