@@ -11320,6 +11320,106 @@ module.exports = exports['default'];
   })();
 });
 
+require.register("muicss/lib/react/col.js", function(exports, require, module) {
+  require = __makeRelativeRequire(require, {}, "muicss");
+  (function() {
+    var babelHelpers = require('./babel-helpers.js');
+/**
+ * MUI React Col Component
+ * @module react/col
+ */
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _util = require('../js/lib/util');
+
+var util = babelHelpers.interopRequireWildcard(_util);
+
+
+var breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+/**
+ * Col constructor
+ * @class
+ */
+
+var Col = function (_React$Component) {
+  babelHelpers.inherits(Col, _React$Component);
+
+  function Col() {
+    babelHelpers.classCallCheck(this, Col);
+    return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Col).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(Col, [{
+    key: 'defaultProps',
+    value: function defaultProps() {
+      var props = { className: '' },
+          i = void 0,
+          v = void 0;
+
+      // add {breakpoint}, {breakpoint}-offset to props
+      for (i = breakpoints.length - 1; i > -1; i--) {
+        v = breakpoints[i];
+        props[v] = null;
+        props[v + '-offset'] = null;
+      }
+
+      return props;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var cls = {},
+          i = void 0,
+          bk = void 0,
+          val = void 0,
+          baseCls = void 0;
+
+      // add mui-col classes
+      for (i = breakpoints.length - 1; i > -1; i--) {
+        bk = breakpoints[i];
+        baseCls = 'mui-col-' + bk;
+
+        // add mui-col-{bk}-{val}
+        val = this.props[bk];
+        if (val) cls[baseCls + '-' + val] = true;
+
+        // add mui-col-{bk}-offset-{val}
+        val = this.props[bk + '-offset'];
+        if (val) cls[baseCls + '-offset-' + val] = true;
+      }
+
+      cls = util.classNames(cls);
+
+      return _react2.default.createElement(
+        'div',
+        babelHelpers.extends({}, this.props, {
+          className: cls + ' ' + this.props.className
+        }),
+        this.props.children
+      );
+    }
+  }]);
+  return Col;
+}(_react2.default.Component);
+
+/** Define module API */
+
+
+exports.default = Col;
+module.exports = exports['default'];
+  })();
+});
+
 require.register("muicss/lib/react/container.js", function(exports, require, module) {
   require = __makeRelativeRequire(require, {}, "muicss");
   (function() {
@@ -11564,6 +11664,71 @@ Panel.defaultProps = {
   className: ''
 };
 exports.default = Panel;
+module.exports = exports['default'];
+  })();
+});
+
+require.register("muicss/lib/react/row.js", function(exports, require, module) {
+  require = __makeRelativeRequire(require, {}, "muicss");
+  (function() {
+    var babelHelpers = require('./babel-helpers.js');
+/**
+ * MUI React Row Component
+ * @module react/row
+ */
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _util = require('../js/lib/util');
+
+var util = babelHelpers.interopRequireWildcard(_util);
+
+
+var breakpoints = ['xs', 'sm', 'md', 'lg'];
+
+/**
+ * Row constructor
+ * @class
+ */
+
+var Row = function (_React$Component) {
+  babelHelpers.inherits(Row, _React$Component);
+
+  function Row() {
+    babelHelpers.classCallCheck(this, Row);
+    return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Row).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(Row, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        babelHelpers.extends({}, this.props, {
+          className: 'mui-row ' + this.props.className
+        }),
+        this.props.children
+      );
+    }
+  }]);
+  return Row;
+}(_react2.default.Component);
+
+/** Define module API */
+
+
+Row.defaultProps = {
+  className: ''
+};
+exports.default = Row;
 module.exports = exports['default'];
   })();
 });
@@ -34446,104 +34611,11 @@ module.exports = warning;
 require.alias("react/react.js", "react");
 require.alias("react-router/lib/index.js", "react-router");
 require.alias("invariant/browser.js", "invariant");
-require.alias("immutable/dist/immutable.js", "immutable");
 require.alias("warning/browser.js", "warning");
+require.alias("immutable/dist/immutable.js", "immutable");
 require.alias("process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');
 
-'use strict';
 
-/* jshint ignore:start */
-(function () {
-  var WebSocket = window.WebSocket || window.MozWebSocket;
-  var br = window.brunch = window.brunch || {};
-  var ar = br['auto-reload'] = br['auto-reload'] || {};
-  if (!WebSocket || ar.disabled) return;
-  if (window._ar) return;
-  window._ar = true;
-
-  var cacheBuster = function cacheBuster(url) {
-    var date = Math.round(Date.now() / 1000).toString();
-    url = url.replace(/(\&|\\?)cacheBuster=\d*/, '');
-    return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'cacheBuster=' + date;
-  };
-
-  var browser = navigator.userAgent.toLowerCase();
-  var forceRepaint = ar.forceRepaint || browser.indexOf('chrome') > -1;
-
-  var reloaders = {
-    page: function page() {
-      window.location.reload(true);
-    },
-
-    stylesheet: function stylesheet() {
-      [].slice.call(document.querySelectorAll('link[rel=stylesheet]')).filter(function (link) {
-        var val = link.getAttribute('data-autoreload');
-        return link.href && val != 'false';
-      }).forEach(function (link) {
-        link.href = cacheBuster(link.href);
-      });
-
-      // Hack to force page repaint after 25ms.
-      if (forceRepaint) setTimeout(function () {
-        document.body.offsetHeight;
-      }, 25);
-    },
-
-    javascript: function javascript() {
-      var scripts = [].slice.call(document.querySelectorAll('script'));
-      var textScripts = scripts.map(function (script) {
-        return script.text;
-      }).filter(function (text) {
-        return text.length > 0;
-      });
-      var srcScripts = scripts.filter(function (script) {
-        return script.src;
-      });
-
-      var loaded = 0;
-      var all = srcScripts.length;
-      var onLoad = function onLoad() {
-        loaded = loaded + 1;
-        if (loaded === all) {
-          textScripts.forEach(function (script) {
-            eval(script);
-          });
-        }
-      };
-
-      srcScripts.forEach(function (script) {
-        var src = script.src;
-        script.remove();
-        var newScript = document.createElement('script');
-        newScript.src = cacheBuster(src);
-        newScript.async = true;
-        newScript.onload = onLoad;
-        document.head.appendChild(newScript);
-      });
-    }
-  };
-  var port = ar.port || 9485;
-  var host = br.server || window.location.hostname || 'localhost';
-
-  var connect = function connect() {
-    var connection = new WebSocket('ws://' + host + ':' + port);
-    connection.onmessage = function (event) {
-      if (ar.disabled) return;
-      var message = event.data;
-      var reloader = reloaders[message] || reloaders.page;
-      reloader();
-    };
-    connection.onerror = function () {
-      if (connection.readyState) connection.close();
-    };
-    connection.onclose = function () {
-      window.setTimeout(connect, 1000);
-    };
-  };
-  connect();
-})();
-/* jshint ignore:end */
-;
 //# sourceMappingURL=vendor.js.map

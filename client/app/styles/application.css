@@ -70,6 +70,9 @@ nav > :nth-child(3) {
 .mui-btn--primary:hover, .mui-btn--primary:active, .mui-btn--primary:focus {
     background-color: #7E57C2;
 }
+.version {
+  text-align: right;
+}
 #stage-form-template {
     display: none;
 }

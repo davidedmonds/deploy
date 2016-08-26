@@ -17,10 +17,13 @@
 //
 
 import React from 'react';
-import { Container } from 'flux/utils';
+import { Container as FluxContainer } from 'flux/utils';
 import { Link } from 'react-router';
 import Button from 'muicss/lib/react/button';
 import Panel from 'muicss/lib/react/panel';
+import Container from 'muicss/lib/react/container';
+import Row from 'muicss/lib/react/row';
+import Col from 'muicss/lib/react/col';
 
 import PipelineStore from '../stores/PipelineStore'
 import StageVisualiser from '../components/StageVisualiser'
@@ -42,7 +45,12 @@ class Pipelines extends React.Component {
         this.state.pipelines.map((pipeline, idx) => {
           return (
             <Panel key={idx}>
-              <h2>{pipeline.name}</h2>
+              <Container fluid={true}>
+                <Row>
+                  <Col md="6"><h2>{pipeline.name}</h2></Col>
+                  <Col md="6"><h2 className="version">{pipeline.version}</h2></Col>
+                </Row>
+              </Container>
               <hr/>
               <StageVisualiser stages={pipeline.stages} />
               <hr/>
@@ -57,5 +65,5 @@ class Pipelines extends React.Component {
   }
 }
 
-const PipelinesContainer = Container.create(Pipelines)
+const PipelinesContainer = FluxContainer.create(Pipelines)
 export default PipelinesContainer

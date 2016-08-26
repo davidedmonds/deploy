@@ -430,6 +430,18 @@ var _panel = require('muicss/lib/react/panel');
 
 var _panel2 = _interopRequireDefault(_panel);
 
+var _container = require('muicss/lib/react/container');
+
+var _container2 = _interopRequireDefault(_container);
+
+var _row = require('muicss/lib/react/row');
+
+var _row2 = _interopRequireDefault(_row);
+
+var _col = require('muicss/lib/react/col');
+
+var _col2 = _interopRequireDefault(_col);
+
 var _PipelineStore = require('../stores/PipelineStore');
 
 var _PipelineStore2 = _interopRequireDefault(_PipelineStore);
@@ -482,9 +494,30 @@ var Pipelines = function (_React$Component) {
             _panel2.default,
             { key: idx },
             _react2.default.createElement(
-              'h2',
-              null,
-              pipeline.name
+              _container2.default,
+              { fluid: true },
+              _react2.default.createElement(
+                _row2.default,
+                null,
+                _react2.default.createElement(
+                  _col2.default,
+                  { md: '6' },
+                  _react2.default.createElement(
+                    'h2',
+                    null,
+                    pipeline.name
+                  )
+                ),
+                _react2.default.createElement(
+                  _col2.default,
+                  { md: '6' },
+                  _react2.default.createElement(
+                    'h2',
+                    { className: 'version' },
+                    pipeline.version
+                  )
+                )
+              )
             ),
             _react2.default.createElement('hr', null),
             _react2.default.createElement(_StageVisualiser2.default, { stages: pipeline.stages }),
