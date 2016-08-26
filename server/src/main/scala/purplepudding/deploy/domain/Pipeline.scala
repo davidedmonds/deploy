@@ -1,3 +1,8 @@
 package purplepudding.deploy.domain
 
-case class Pipeline(name: String, stages: Seq[Stage])
+import purplepudding.deploy.domain.trigger.Trigger
+
+case class Pipeline(name: String,
+                    version: String,
+                    stages: Seq[Stage],
+                    triggers: Seq[Trigger])

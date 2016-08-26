@@ -15,14 +15,18 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.3.0",
   "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.authzserver" % oltuVersion,
   "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.resourceserver" % oltuVersion,
+  "com.github.zafarkhaja" % "java-semver" % "0.9.0",
+
   "org.eclipse.jetty" % "jetty-webapp" % jettyVersion % "compile;container",
   "org.eclipse.jetty.websocket" % "javax-websocket-server-impl" % jettyVersion % "compile;container",
   "ch.qos.logback" % "logback-classic" % "1.1.3" % "runtime",
   "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
   "javax.websocket" % "javax.websocket-api" % "1.1" % "provided",
+
   "org.scalatra" %% "scalatra-scalatest" % scalatraVersion % "test",
   "org.typelevel" %% "scalaz-scalatest" % "0.3.0" % "test",
-  "org.mockito" % "mockito-core" % "1.10.19" % "test"
+  "org.mockito" % "mockito-core" % "1.10.19" % "test",
+  "org.skyscreamer" % "jsonassert" % "1.3.0" % "test"
 )
 scalacOptions := Seq("-Xexperimental")
 mainClass in assembly := Some("purplepudding.deploy.Deploy")

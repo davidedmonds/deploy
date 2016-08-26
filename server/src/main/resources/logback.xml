@@ -24,7 +24,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.eclipse.jetty" level="INFO"/>
+    <!--<logger name="org.eclipse.jetty" level="INFO"/>-->
     <logger name="purplepudding.deploy" level="DEBUG"/>
     <logger name="com.rethinkdb" level="INFO"/>
 

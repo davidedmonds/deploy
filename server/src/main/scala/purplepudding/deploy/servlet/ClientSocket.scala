@@ -21,19 +21,20 @@ package purplepudding.deploy.servlet
 
 import javax.websocket.server.ServerEndpoint
 
-import org.json4s.{DefaultFormats, Formats}
+import org.json4s.{DefaultFormats, FieldSerializer, Formats}
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.{read, write}
 import javax.websocket.{CloseReason, OnClose, OnMessage, OnOpen, Session}
 
 import purplepudding.deploy.Logging
+import purplepudding.deploy.domain.trigger.Trigger
 import purplepudding.deploy.service.PipelineService
 
 import scala.collection.mutable
 
 @ServerEndpoint("/client")
 class ClientSocket(pipelineService: PipelineService) extends Logging {
-  implicit lazy val jsonFormats: Formats = DefaultFormats
+  implicit lazy val jsonFormats: Formats = DefaultFormats + FieldSerializer[Trigger]()
   val sessions = new mutable.ListBuffer[Session]
   log("ClientSocket started")
 

@@ -520,7 +520,7 @@ var Pipelines = function (_React$Component) {
               )
             ),
             _react2.default.createElement('hr', null),
-            _react2.default.createElement(_StageVisualiser2.default, { stages: pipeline.stages }),
+            _react2.default.createElement(_StageVisualiser2.default, { stages: pipeline.stages, triggers: pipeline.triggers }),
             _react2.default.createElement('hr', null),
             _react2.default.createElement(
               _reactRouter.Link,
@@ -791,14 +791,26 @@ var StageVisualiser = function (_React$Component) {
               _react2.default.createElement("feMergeNode", { "in": "SourceGraphic" })
             )
           ),
+          this.props.triggers.map(function (trigger, idx) {
+            return _react2.default.createElement(
+              "g",
+              { key: idx },
+              _react2.default.createElement("rect", { x: "10", y: 10 + idx * 40, width: "130", height: "30", fill: "#fff", filter: "url(#dropShadow)", rx: "15", ry: "15" }),
+              _react2.default.createElement(
+                "text",
+                { x: "75", y: 30 + idx * 40, textAnchor: "middle" },
+                "github-listener"
+              )
+            );
+          }),
           this.props.stages.map(function (stage, idx) {
             return _react2.default.createElement(
               "g",
               { key: idx },
-              _react2.default.createElement("rect", { x: 10 + idx * 150, y: "10", width: "130", height: "30", fill: "#fff", filter: "url(#dropShadow)" }),
+              _react2.default.createElement("rect", { x: 160 + idx * 150, y: "10", width: "130", height: "30", fill: "#fff", filter: "url(#dropShadow)" }),
               _react2.default.createElement(
                 "text",
-                { x: 75 + idx * 150, y: "30", textAnchor: "middle" },
+                { x: 225 + idx * 150, y: "30", textAnchor: "middle" },
                 stage.name
               )
             );

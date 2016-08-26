@@ -52,7 +52,7 @@ class Pipelines extends React.Component {
                 </Row>
               </Container>
               <hr/>
-              <StageVisualiser stages={pipeline.stages} />
+              <StageVisualiser stages={pipeline.stages} triggers={pipeline.triggers} />
               <hr/>
               <Link to={"/pipeline/edit/" + pipeline.name}>
                 <Button color="primary">Edit Pipeline</Button>
