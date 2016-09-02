@@ -886,7 +886,7 @@ var WebsocketIndicator = function (_React$Component) {
           _arguments = arguments;
 
       //TODO move this into a store eventually
-      var websocket = new WebSocket("ws://localhost:54321/client");
+      var websocket = new WebSocket("ws://localhost:8000/client");
 
       websocket.onopen = function (event) {
         _this2.setState({ connected: true });
@@ -1321,7 +1321,7 @@ var instance = new PipelineStore(_DeployDispatcher2.default);
 exports.default = instance;
 });
 
-require.alias("brunch/node_modules/process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
+require.alias("process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');
 

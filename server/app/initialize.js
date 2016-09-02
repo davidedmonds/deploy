@@ -17,21 +17,30 @@
 //
 
 import restify from 'restify';
-import WebSocket from 'ws';
-
-const ws = new WebSocket('ws://172.17.0.1:8000/agent');
-
-ws.on('open', () => {
-  ws.send('agent calling in');
-});
-
-ws.on('message', (data, flags) => {
-  // flags.binary will be set if a binary data is received.
-  // flags.masked will be set if the data was masked.
-  console.log("Incoming message:", data);
-});
+import { Server as WebSocketServer } from 'ws';
+import url from 'url';
 
 const server = restify.createServer();
+const wss = new WebSocketServer({ server: server });
+
+wss.on('connection', function connection(ws) {
+  var location = url.parse(ws.upgradeReq.url, true);
+  if (location.path.match(/\/client/)) {
+    ws.on('message', function incoming(message) {
+      console.log('received client message:', message);
+    });
+
+    ws.send('server calling out to client');
+  } else if (location.path.match(/\/agent/)) {
+    ws.on('message', function incoming(message) {
+      console.log('received agent message: %s', message);
+    });
+
+    ws.send('server calling out to agent');
+  }
+
+});
+
 server.get('/', (req, res, next) => {
   console.log("I ARE GET /");
   res.send('WOOP');

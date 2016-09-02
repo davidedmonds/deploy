@@ -16,28 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import restify from 'restify';
-import WebSocket from 'ws';
+import test from 'ava';
 
-const ws = new WebSocket('ws://172.17.0.1:8000/agent');
-
-ws.on('open', () => {
-  ws.send('agent calling in');
+test('An agent registers on startup', t => {
+    t.pass();
 });
 
-ws.on('message', (data, flags) => {
-  // flags.binary will be set if a binary data is received.
-  // flags.masked will be set if the data was masked.
-  console.log("Incoming message:", data);
-});
-
-const server = restify.createServer();
-server.get('/', (req, res, next) => {
-  console.log("I ARE GET /");
-  res.send('WOOP');
-  next();
-});
-
-server.listen(8080, () => {
-  console.log('%s listening on %s', server.name, server.url);
+test('bar', async t => {
+    const bar = Promise.resolve('bar');
+    t.is(await bar, 'bar');
 });

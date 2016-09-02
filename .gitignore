@@ -80,5 +80,4 @@ client/node_modules
 client/public
 
 # Server App
-server/.lib
-server/sbt
+server/node_modules
