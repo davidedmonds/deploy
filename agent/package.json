@@ -1,0 +1,24 @@
+{
+  "name": "deploy-agent",
+  "description": "Build Agent for Deploy build system",
+  "author": "Purple Pudding",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "start": "forever -f -c babel-node -t --watch --watchDirectory ./app/ ./app/initialize.js",
+    "test": "ava"
+  },
+  "dependencies": {
+    "restify": "^4.1.1",
+    "ws": "^1.1.1"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "~6.14.0",
+    "forever": "^0.15.2"
+  }
+}

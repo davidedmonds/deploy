@@ -208,7 +208,7 @@ var App = function (_React$Component) {
   function App() {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
   }
 
   _createClass(App, [{
@@ -286,7 +286,7 @@ var Footer = function (_React$Component) {
   function Footer() {
     _classCallCheck(this, Footer);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Footer).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
   }
 
   _createClass(Footer, [{
@@ -362,7 +362,7 @@ var Menu = function (_React$Component) {
   function Menu() {
     _classCallCheck(this, Menu);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Menu).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).apply(this, arguments));
   }
 
   _createClass(Menu, [{
@@ -480,7 +480,7 @@ var Pipelines = function (_React$Component) {
   function Pipelines() {
     _classCallCheck(this, Pipelines);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Pipelines).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Pipelines.__proto__ || Object.getPrototypeOf(Pipelines)).apply(this, arguments));
   }
 
   _createClass(Pipelines, [{
@@ -613,7 +613,7 @@ var Routes = function (_React$Component) {
   function Routes() {
     _classCallCheck(this, Routes);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Routes).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Routes.__proto__ || Object.getPrototypeOf(Routes)).apply(this, arguments));
   }
 
   _createClass(Routes, [{
@@ -689,7 +689,7 @@ var StageForm = function (_React$Component) {
   function StageForm() {
     _classCallCheck(this, StageForm);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(StageForm).apply(this, arguments));
+    return _possibleConstructorReturn(this, (StageForm.__proto__ || Object.getPrototypeOf(StageForm)).apply(this, arguments));
   }
 
   _createClass(StageForm, [{
@@ -755,7 +755,7 @@ var StageVisualiser = function (_React$Component) {
   function StageVisualiser() {
     _classCallCheck(this, StageVisualiser);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(StageVisualiser).apply(this, arguments));
+    return _possibleConstructorReturn(this, (StageVisualiser.__proto__ || Object.getPrototypeOf(StageVisualiser)).apply(this, arguments));
   }
 
   _createClass(StageVisualiser, [{
@@ -873,7 +873,7 @@ var WebsocketIndicator = function (_React$Component) {
   function WebsocketIndicator(props) {
     _classCallCheck(this, WebsocketIndicator);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WebsocketIndicator).call(this, props));
+    var _this = _possibleConstructorReturn(this, (WebsocketIndicator.__proto__ || Object.getPrototypeOf(WebsocketIndicator)).call(this, props));
 
     _this.state = { connected: false };
     return _this;
@@ -964,7 +964,7 @@ var DeployDispatcher = function (_Dispatcher) {
   function DeployDispatcher() {
     _classCallCheck(this, DeployDispatcher);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DeployDispatcher).apply(this, arguments));
+    return _possibleConstructorReturn(this, (DeployDispatcher.__proto__ || Object.getPrototypeOf(DeployDispatcher)).apply(this, arguments));
   }
 
   _createClass(DeployDispatcher, [{
@@ -1093,7 +1093,7 @@ var EditPipeline = function (_React$Component) {
   function EditPipeline() {
     _classCallCheck(this, EditPipeline);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(EditPipeline).apply(this, arguments));
+    return _possibleConstructorReturn(this, (EditPipeline.__proto__ || Object.getPrototypeOf(EditPipeline)).apply(this, arguments));
   }
 
   _createClass(EditPipeline, [{
@@ -1207,7 +1207,7 @@ var Overview = function (_React$Component) {
   function Overview() {
     _classCallCheck(this, Overview);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Overview).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Overview.__proto__ || Object.getPrototypeOf(Overview)).apply(this, arguments));
   }
 
   _createClass(Overview, [{
@@ -1285,7 +1285,7 @@ var PipelineStore = function (_ReduceStore) {
   function PipelineStore() {
     _classCallCheck(this, PipelineStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(PipelineStore).apply(this, arguments));
+    return _possibleConstructorReturn(this, (PipelineStore.__proto__ || Object.getPrototypeOf(PipelineStore)).apply(this, arguments));
   }
 
   _createClass(PipelineStore, [{
@@ -1321,7 +1321,7 @@ var instance = new PipelineStore(_DeployDispatcher2.default);
 exports.default = instance;
 });
 
-require.alias("process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
+require.alias("brunch/node_modules/process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');
 

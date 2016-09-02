@@ -72,6 +72,9 @@ jrebel.lic
 *.db.mv.db
 *.db.trace.db
 
+# Agent App
+agent/node_modules
+
 # Client App
 client/node_modules
 client/public
