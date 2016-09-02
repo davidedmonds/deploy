@@ -16,21 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import restify from 'restify';
-import WebSocket from 'ws';
+export default class AgentService {
+  constructor() {
+    this.buildQueue = [];
+    this.agents = {
+      idle: [],
+      building: []
+    }
+  }
 
-const ws = new WebSocket('ws://172.17.0.1:8000/agent');
+  add(agent) {
+    this.agents.idle.push(agent);
+    console.log('Agents Status: ', this.agents);
+  }
 
-ws.on('open', () => {
-  ws.send('agent calling in');
-});
+  queue(pipeline) {
+    if (this.agents.idle.length === 0) {
+      console.log('Adding build to queue');
+      this.buildQueue.push(pipeline);
+    } else {
+      console.log('Assigning build to agent')
+      this._assignAgent(pipeline);
+    }
+  }
 
-ws.on('message', (data, flags) => {
-  // flags.binary will be set if a binary data is received.
-  // flags.masked will be set if the data was masked.
-  console.log("Incoming message:", data);
-});
-
-ws.on('close', () => {
-  process.exit();
-});
+  _assignAgent(pipeline) {
+    console.log('Sending pipeline to agent', JSON.stringify(pipeline));
+    var agent = this.agents.idle.shift();
+    this.agents.building.push(agent);
+    agent.connection.send(JSON.stringify(pipeline));
+  }
+}

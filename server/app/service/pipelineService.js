@@ -16,21 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import restify from 'restify';
-import WebSocket from 'ws';
+export default class PipelineService {
+  constructor(agentService) {
+    this.agentService = agentService;
+  }
 
-const ws = new WebSocket('ws://172.17.0.1:8000/agent');
-
-ws.on('open', () => {
-  ws.send('agent calling in');
-});
-
-ws.on('message', (data, flags) => {
-  // flags.binary will be set if a binary data is received.
-  // flags.masked will be set if the data was masked.
-  console.log("Incoming message:", data);
-});
-
-ws.on('close', () => {
-  process.exit();
-});
+  launch(id) {
+    console.log("Launching job id ", id);
+    //TODO retrieve pipeline info from DB here
+    this.agentService.queue({id: id});
+  }
+}

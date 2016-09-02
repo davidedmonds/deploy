@@ -22,7 +22,8 @@ import AgentConnection from './agentConnection'
 import ClientConnection from './clientConnection'
 
 export default class WebSocket {
-  constructor(server) {
+  constructor(server, agentService) {
+    this.agentService = agentService;
     this.wss = new WebSocketServer({ server: server });
     this.connections = { agent: [], client: [] };
     this.wss.on('connection', (ws) => this.handleConnection(ws));
@@ -37,6 +38,7 @@ export default class WebSocket {
     } else if (location.path.match(/\/agent/)) {
       var conn = new AgentConnection(ws);
       this.connections.agent.push(conn);
+      this.agentService.add({connection: conn}); //TODO does agent need any more parameters?
       conn.send('server calling out to agent');
     }
   }

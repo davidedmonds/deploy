@@ -16,10 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import AgentService from './service/agentService';
+import PipelineService from './service/pipelineService';
 import RestServer from './rest/restServer';
 import WebSocket from './ws/webSocket';
 
-const rs = new RestServer();
-const ws = new WebSocket(rs.server);
+const agentService = new AgentService();
+const pipelineService = new PipelineService(agentService);
+const rs = new RestServer(pipelineService);
+const ws = new WebSocket(rs.server, agentService);
 
 rs.start();

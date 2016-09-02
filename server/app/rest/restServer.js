@@ -19,13 +19,20 @@
 import restify from 'restify';
 
 export default class RestServer {
-  constructor() {
+  constructor(pipelineService) {
+    this.pipelineService = pipelineService;
+    
     this.server = restify.createServer();
     this.server.get('/', (req, res, next) => {
       console.log("I ARE GET /");
       res.send('WOOP');
       next();
     });
+    this.server.put('/pipeline/:id/launch', (req, res, next) => {
+      this.pipelineService.launch(req.params.id);
+      res.send(202);
+      return next();
+    })
   }
 
   start() {
