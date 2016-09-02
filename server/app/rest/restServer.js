@@ -16,10 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import RestServer from './rest/restServer';
-import WebSocket from './ws/webSocket';
+import restify from 'restify';
 
-const rs = new RestServer();
-const ws = new WebSocket(rs.server);
+export default class RestServer {
+  constructor() {
+    this.server = restify.createServer();
+    this.server.get('/', (req, res, next) => {
+      console.log("I ARE GET /");
+      res.send('WOOP');
+      next();
+    });
+  }
 
-rs.start();
+  start() {
+    this.server.listen(8080,
+      () => console.log('%s listening on %s', this.server.name, this.server.url));
+  }
+}

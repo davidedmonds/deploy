@@ -16,10 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import RestServer from './rest/restServer';
-import WebSocket from './ws/webSocket';
+export default class Connection {
+  constructor(ws) {
+    this.ws = ws;
+  }
 
-const rs = new RestServer();
-const ws = new WebSocket(rs.server);
-
-rs.start();
+  send(msg) {
+    this.ws.send(msg);
+  }
+}

@@ -15,11 +15,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import Connection from './connection';
 
-import RestServer from './rest/restServer';
-import WebSocket from './ws/webSocket';
+export default class ClientConnection extends Connection {
+  constructor(ws) {
+    super(ws);
 
-const rs = new RestServer();
-const ws = new WebSocket(rs.server);
-
-rs.start();
+    this.ws.on('message', function incoming(message) {
+      console.log('received client message:', message);
+    });
+  }
+}
