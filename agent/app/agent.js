@@ -16,20 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import restify from 'restify';
-import WebSocket from 'ws';
+export default class Agent {
+  constructor(ws) {
+    this.ws = ws;
+    this.ws.on('open', () => this.open());
+    this.ws.on('message', (data, flags) => this.message(data, flags));
+  }
 
-import Agent from './agent';
+  open() {
+    this.ws.send('Agent Checking In');
+  }
 
-const ws = new WebSocket('ws://172.17.0.1:8000/agent');
-const agent = new Agent(ws);
-
-ws.on('close', () => {
-  console.log("Connection closed. Exiting...")
-  //TODO cancel the job the agent's performing if possible.
-  process.exit();
-});
-
-process.on('exit', () => ws.close());
-
-process.on('SIGINT', () => ws.close());
+  message(data, flags) {
+    console.log("Incoming message:", data);
+  }
+}
