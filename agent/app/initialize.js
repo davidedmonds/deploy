@@ -32,5 +32,10 @@ ws.on('message', (data, flags) => {
 });
 
 ws.on('close', () => {
+  console.log("Connection closed. Exiting...")
   process.exit();
 });
+
+process.on('exit', () => ws.close());
+
+process.on('SIGINT', () => ws.close());

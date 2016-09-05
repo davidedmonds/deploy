@@ -30,6 +30,16 @@ export default class AgentService {
     console.log('Agents Status: ', this.agents);
   }
 
+  remove(agent) {
+    let idx = this.agents.idle.indexOf(agent);
+    if (idx === -1) {
+      idx = this.agents.building.indexOf(agent);
+      this.agents.building.splice(idx, 1);
+    } else {
+      this.agents.idle.splice(idx, 1);
+    }
+  }
+
   queue(pipeline) {
     if (this.agents.idle.length === 0) {
       console.log('Adding build to queue');

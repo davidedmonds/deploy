@@ -34,11 +34,20 @@ export default class WebSocket {
     if (location.path.match(/\/client/)) {
       var conn = new ClientConnection(ws);
       this.connections.client.push(conn);
+      ws.on('close', (ws) => {
+        console.log('Closing client connection')
+        this.connections.client.splice(this.connections.client.indexOf(conn), 1);
+      });
       conn.send('server calling out to client');
     } else if (location.path.match(/\/agent/)) {
       var conn = new AgentConnection(ws);
       this.connections.agent.push(conn);
-      this.agentService.add({connection: conn}); //TODO does agent need any more parameters?
+      ws.on('close', (ws) => {
+        console.log('Closing agent connection')
+        this.connections.agent.splice(this.connections.agent.indexOf(conn), 1);
+        this.agentService.remove(conn);
+      });
+      this.agentService.add(conn);
       conn.send('server calling out to agent');
     }
   }
