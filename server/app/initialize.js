@@ -16,13 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import r from 'rethinkdbdash';
+
 import AgentService from './service/agentService';
+import DbSchema from './db/dbSchema';
+import PipelineDb from './db/pipelineDb';
 import PipelineService from './service/pipelineService';
 import RestServer from './rest/restServer';
 import WebSocket from './ws/webSocket';
 
+const db = r({
+  servers: [ { host: "172.17.0.1", port:28015 } ]
+});
+
+console.log('Checking db status an upgrading if required');
+DbSchema(db);
+console.log('DB status check complete');
+
+const pipelineDb = new PipelineDb(db);
+
 const agentService = new AgentService();
-const pipelineService = new PipelineService(agentService);
+const pipelineService = new PipelineService(agentService, pipelineDb);
+
 const rs = new RestServer(pipelineService);
 const ws = new WebSocket(rs.server, agentService);
 

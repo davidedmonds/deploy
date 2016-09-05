@@ -16,16 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export default class PipelineService {
-  constructor(agentService, pipelineDb) {
-    this.agentService = agentService;
-    this.pipelineDb = pipelineDb;
+export default class PipelineDb {
+  constructor(r) {
+    this._r = r;
   }
 
-  async launch(id) {
-    console.log("Launching pipeline with id", id);
-    let pipeline = await this.pipelineDb.getById(id);
-    console.log(pipeline);
-    this.agentService.queue(pipeline);
+  async getById(id) {
+    return this._r.db('deploy').table('pipelines').get(id).run();
   }
 }

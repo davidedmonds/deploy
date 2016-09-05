@@ -42,7 +42,7 @@ export default class AgentService {
 
   queue(pipeline) {
     if (this.agents.idle.length === 0) {
-      console.log('Adding build to queue');
+      console.log('Adding build to queue', JSON.stringify(pipeline));
       this.buildQueue.push(pipeline);
     } else {
       console.log('Assigning build to agent')

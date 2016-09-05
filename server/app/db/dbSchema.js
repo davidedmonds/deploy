@@ -15,17 +15,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+const tables = ['pipelines'];
 
-export default class PipelineService {
-  constructor(agentService, pipelineDb) {
-    this.agentService = agentService;
-    this.pipelineDb = pipelineDb;
+export default async function DbInit(r) {
+  let conn = await r.connect({ host: '172.17.0.1', port: 28015 });
+  let dbs = await r.dbList().run(conn);
+  if (!dbs.includes('deploy')) {
+    console.log('Database does not exist, creating...');
+    await r.dbCreate('deploy').run(conn);
   }
-
-  async launch(id) {
-    console.log("Launching pipeline with id", id);
-    let pipeline = await this.pipelineDb.getById(id);
-    console.log(pipeline);
-    this.agentService.queue(pipeline);
-  }
+  let tableList = await r.db('deploy').tableList().run(conn);
+  await tables.forEach((table) => {
+    if (!tableList.includes(table)) {
+      console.log('Creating missing table', table);
+      r.db('deploy').tableCreate(table).run(conn);
+    }
+  });
+  console.log('DB init complete');
 }
