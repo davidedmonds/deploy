@@ -54,6 +54,6 @@ export default class AgentService {
     console.log('Sending pipeline to agent', JSON.stringify(pipeline));
     var agent = this.agents.idle.shift();
     this.agents.building.push(agent);
-    agent.connection.send(JSON.stringify(pipeline));
+    agent.send(JSON.stringify(pipeline));
   }
 }
