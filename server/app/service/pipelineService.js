@@ -24,8 +24,6 @@ export default class PipelineService {
 
   async launch(id) {
     console.log("Launching pipeline with id", id);
-    let pipeline = await this.pipelineDb.getById(id);
-    console.log(pipeline);
-    this.agentService.queue(pipeline);
+    this.agentService.queue(await this.pipelineDb.getById(id));
   }
 }
