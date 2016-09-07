@@ -20,7 +20,7 @@ import Connection from './connection';
 export default class AgentConnection extends Connection {
   constructor(ws) {
     super(ws);
-    this.ws.on('message', function incoming(message) {
+    this.ws.on('message', (message) => {
       console.log('received client message:', message);
     });
   }

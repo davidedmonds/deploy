@@ -16,28 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export default class Agent {
-  constructor(ws, runner) {
-    this.ws = ws;
-    this.runner = runner;
-    this.ws.on('open', () => this.open());
-    this.ws.on('message', (data, flags) => this.message(data, flags));
+import DummyStage from './stages/dummyStage'
+
+export default class Runner {
+  constructor(ws) {
+    this._ws = ws;
   }
 
-  open() {
-    this.ws.send('Agent Checking In');
-  }
-
-  message(data, flags) {
-    var pipeline;
+  async run(pipeline) {
     try {
-      pipeline = JSON.parse(data);
-    } catch(e) {
-      console.log('Recieved non-json data:', data);
-    }
-    if(pipeline) {
-      console.log("Received Pipeline:", pipeline.id);
-      this.runner.run(pipeline);
+      console.log('Starting to run', pipeline);
+      for (let stage of pipeline.stages) {
+        console.log('Starting stage', stage.name);
+        //TODO select which stage type to run here.
+        let stageRunner = new DummyStage();
+        //TODO Pass log output back to the websocket.
+        await stageRunner.run();
+        console.log('Stage', stage.name, 'complete');
+      }
+      console.log('Run complete! Notifying server.');
+      this._ws.send(JSON.stringify({ type: "agent-complete", pipeline: pipeline }));
+    } catch (err) {
+      console.error("ERROR:", err);
     }
   }
 }

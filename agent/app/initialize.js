@@ -20,9 +20,11 @@ import restify from 'restify';
 import WebSocket from 'ws';
 
 import Agent from './agent';
+import Runner from './runner';
 
 const ws = new WebSocket('ws://172.17.0.1:8000/agent');
-const agent = new Agent(ws);
+const runner = new Runner(ws);
+const agent = new Agent(ws, runner);
 
 ws.on('close', () => {
   console.log("Connection closed. Exiting...")

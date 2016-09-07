@@ -15,29 +15,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import Docker from 'dockerode-promise-es6';
 
-export default class Agent {
-  constructor(ws, runner) {
-    this.ws = ws;
-    this.runner = runner;
-    this.ws.on('open', () => this.open());
-    this.ws.on('message', (data, flags) => this.message(data, flags));
+export default class DummyStage {
+  constructor() {
+    this._docker = new Docker();
   }
 
-  open() {
-    this.ws.send('Agent Checking In');
-  }
-
-  message(data, flags) {
-    var pipeline;
+  async run() {
+    let result = await this._docker.run('node:6-slim', ['bash', '-c', 'uname -a'], process.stdout);
+    console.log('Ran in Container', result.container.id);
+    // - Push the resulting container back to the registry
     try {
-      pipeline = JSON.parse(data);
-    } catch(e) {
-      console.log('Recieved non-json data:', data);
-    }
-    if(pipeline) {
-      console.log("Received Pipeline:", pipeline.id);
-      this.runner.run(pipeline);
+      await result.container.remove({});
+    } catch(err) {
+      console.log('Error: ', err);
     }
   }
 }
