@@ -19,6 +19,11 @@
 import React from 'react';
 
 export default class StageVisualiser extends React.Component {
+  static propTypes = {
+    stages: React.PropTypes.array,
+    triggers: React.PropTypes.array
+  }
+
   render() {
     return (
       <div className="stage-vis">
@@ -46,13 +51,13 @@ export default class StageVisualiser extends React.Component {
             return (<g key={idx}>
               <rect x="10" y={10 + (idx * 40)} width="130" height="30" fill="#fff" filter="url(#dropShadow)" rx="15" ry="15"/>
               <text x="75" y={30 + (idx * 40)} textAnchor="middle">github-listener</text>
-            </g>)
+            </g>);
           })}
           {this.props.stages.map((stage, idx) => {
             return (<g key={idx}>
               <rect x={160 + (idx * 150)} y="10" width="130" height="30" fill="#fff" filter="url(#dropShadow)"/>
               <text x={225 + (idx * 150)} y="30" textAnchor="middle">{stage.name}</text>
-            </g>)
+            </g>);
           })}
         </svg>
       </div>

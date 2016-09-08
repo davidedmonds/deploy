@@ -16,18 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import restify from 'restify';
 import WebSocket from 'ws';
 
 import Agent from './agent';
+import { logger } from './util/logger';
 import Runner from './runner';
 
 const ws = new WebSocket('ws://172.17.0.1:8000/agent');
 const runner = new Runner(ws);
-const agent = new Agent(ws, runner);
+new Agent(ws, runner);
 
 ws.on('close', () => {
-  console.log("Connection closed. Exiting...")
+  logger.info('Connection closed. Exiting...');
   //TODO cancel the job the agent's performing if possible.
   process.exit();
 });

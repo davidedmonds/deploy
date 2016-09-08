@@ -174,10 +174,6 @@ var _Footer = require('./Footer');
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Overview = require('../pages/Overview');
-
-var _Overview2 = _interopRequireDefault(_Overview);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -240,6 +236,9 @@ var App = function (_React$Component) {
   return App;
 }(_react2.default.Component);
 
+App.propTypes = {
+  children: _react2.default.PropTypes.node
+};
 exports.default = App;
 });
 
@@ -405,157 +404,6 @@ var Menu = function (_React$Component) {
 exports.default = Menu;
 });
 
-;require.register("components/Pipelines.jsx", function(exports, require, module) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _utils = require('flux/utils');
-
-var _reactRouter = require('react-router');
-
-var _button = require('muicss/lib/react/button');
-
-var _button2 = _interopRequireDefault(_button);
-
-var _panel = require('muicss/lib/react/panel');
-
-var _panel2 = _interopRequireDefault(_panel);
-
-var _container = require('muicss/lib/react/container');
-
-var _container2 = _interopRequireDefault(_container);
-
-var _row = require('muicss/lib/react/row');
-
-var _row2 = _interopRequireDefault(_row);
-
-var _col = require('muicss/lib/react/col');
-
-var _col2 = _interopRequireDefault(_col);
-
-var _PipelineStore = require('../stores/PipelineStore');
-
-var _PipelineStore2 = _interopRequireDefault(_PipelineStore);
-
-var _StageVisualiser = require('../components/StageVisualiser');
-
-var _StageVisualiser2 = _interopRequireDefault(_StageVisualiser);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
-// Deploy - Continuous Delivery, Faster
-// Copyright (C) 2016 by David Edmonds
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-var Pipelines = function (_React$Component) {
-  _inherits(Pipelines, _React$Component);
-
-  function Pipelines() {
-    _classCallCheck(this, Pipelines);
-
-    return _possibleConstructorReturn(this, (Pipelines.__proto__ || Object.getPrototypeOf(Pipelines)).apply(this, arguments));
-  }
-
-  _createClass(Pipelines, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        this.state.pipelines.map(function (pipeline, idx) {
-          return _react2.default.createElement(
-            _panel2.default,
-            { key: idx },
-            _react2.default.createElement(
-              _container2.default,
-              { fluid: true },
-              _react2.default.createElement(
-                _row2.default,
-                null,
-                _react2.default.createElement(
-                  _col2.default,
-                  { md: '6' },
-                  _react2.default.createElement(
-                    'h2',
-                    null,
-                    pipeline.name
-                  )
-                ),
-                _react2.default.createElement(
-                  _col2.default,
-                  { md: '6' },
-                  _react2.default.createElement(
-                    'h2',
-                    { className: 'version' },
-                    pipeline.version
-                  )
-                )
-              )
-            ),
-            _react2.default.createElement('hr', null),
-            _react2.default.createElement(_StageVisualiser2.default, { stages: pipeline.stages, triggers: pipeline.triggers }),
-            _react2.default.createElement('hr', null),
-            _react2.default.createElement(
-              _reactRouter.Link,
-              { to: "/pipeline/edit/" + pipeline.name },
-              _react2.default.createElement(
-                _button2.default,
-                { color: 'primary' },
-                'Edit Pipeline'
-              )
-            )
-          );
-        })
-      );
-    }
-  }], [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_PipelineStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState(prevState) {
-      return {
-        pipelines: _PipelineStore2.default.getState()
-      };
-    }
-  }]);
-
-  return Pipelines;
-}(_react2.default.Component);
-
-var PipelinesContainer = _utils.Container.create(Pipelines);
-exports.default = PipelinesContainer;
-});
-
 ;require.register("components/Routes.jsx", function(exports, require, module) {
 'use strict';
 
@@ -709,121 +557,12 @@ var StageForm = function (_React$Component) {
   return StageForm;
 }(_react2.default.Component);
 
-exports.default = StageForm;
-});
-
-;require.register("components/StageVisualiser.jsx", function(exports, require, module) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
-// Deploy - Continuous Delivery, Faster
-// Copyright (C) 2016 by David Edmonds
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-var StageVisualiser = function (_React$Component) {
-  _inherits(StageVisualiser, _React$Component);
-
-  function StageVisualiser() {
-    _classCallCheck(this, StageVisualiser);
-
-    return _possibleConstructorReturn(this, (StageVisualiser.__proto__ || Object.getPrototypeOf(StageVisualiser)).apply(this, arguments));
+StageForm.propTypes = {
+  stage: {
+    name: _react2.default.PropTypes.string
   }
-
-  _createClass(StageVisualiser, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "stage-vis" },
-        _react2.default.createElement(
-          "svg",
-          { width: "100%", height: "100%" },
-          _react2.default.createElement(
-            "filter",
-            { id: "dropShadow", width: "150%", height: "150%" },
-            _react2.default.createElement(
-              "feComponentTransfer",
-              { "in": "SourceAlpha" },
-              _react2.default.createElement("feFuncA", { type: "linear", slope: "0.2" })
-            ),
-            _react2.default.createElement("feGaussianBlur", { stdDeviation: "2", out: "GeneralGlow" }),
-            _react2.default.createElement("feOffset", { "in": "SourceAlpha", dx: "0", dy: "2" }),
-            _react2.default.createElement(
-              "feComponentTransfer",
-              null,
-              _react2.default.createElement("feFuncA", { type: "linear", slope: "0.2" })
-            ),
-            _react2.default.createElement("feGaussianBlur", { stdDeviation: "2", out: "MainShadow" }),
-            _react2.default.createElement(
-              "feMerge",
-              null,
-              _react2.default.createElement("feMergeNode", { "in": "GeneralGlow" }),
-              _react2.default.createElement("feMergeNode", { "in": "MainShadow" }),
-              _react2.default.createElement("feMergeNode", { "in": "SourceGraphic" })
-            )
-          ),
-          this.props.triggers.map(function (trigger, idx) {
-            return _react2.default.createElement(
-              "g",
-              { key: idx },
-              _react2.default.createElement("rect", { x: "10", y: 10 + idx * 40, width: "130", height: "30", fill: "#fff", filter: "url(#dropShadow)", rx: "15", ry: "15" }),
-              _react2.default.createElement(
-                "text",
-                { x: "75", y: 30 + idx * 40, textAnchor: "middle" },
-                "github-listener"
-              )
-            );
-          }),
-          this.props.stages.map(function (stage, idx) {
-            return _react2.default.createElement(
-              "g",
-              { key: idx },
-              _react2.default.createElement("rect", { x: 160 + idx * 150, y: "10", width: "130", height: "30", fill: "#fff", filter: "url(#dropShadow)" }),
-              _react2.default.createElement(
-                "text",
-                { x: 225 + idx * 150, y: "30", textAnchor: "middle" },
-                stage.name
-              )
-            );
-          })
-        )
-      );
-    }
-  }]);
-
-  return StageVisualiser;
-}(_react2.default.Component);
-
-exports.default = StageVisualiser;
+};
+exports.default = StageForm;
 });
 
 ;require.register("components/WebsocketIndicator.jsx", function(exports, require, module) {
@@ -886,12 +625,12 @@ var WebsocketIndicator = function (_React$Component) {
           _arguments = arguments;
 
       //TODO move this into a store eventually
-      var websocket = new WebSocket("ws://localhost:8000/client");
+      var websocket = new WebSocket('ws://localhost:8000/client');
 
-      websocket.onopen = function (event) {
+      websocket.onopen = function () {
         _this2.setState({ connected: true });
       };
-      websocket.onmessage = function (event) {
+      websocket.onmessage = function () {
         console.log(event.data);
         _DeployDispatcher2.default.handleViewAction(JSON.parse(event.data));
       };
@@ -905,7 +644,7 @@ var WebsocketIndicator = function (_React$Component) {
       return _react2.default.createElement(
         'span',
         { className: 'mui--appbar-line-height' },
-        this.state.connected ? "Connected" : "Disconnected"
+        this.state.connected ? 'Connected' : 'Disconnected'
       );
     }
   }]);
@@ -916,17 +655,8 @@ var WebsocketIndicator = function (_React$Component) {
 exports.default = WebsocketIndicator;
 });
 
-;require.register("constants/DeployConstants.js", function(exports, require, module) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var CompleteState = exports.CompleteState = "completeState";
-});
-
 ;require.register("dispatcher/DeployDispatcher.js", function(exports, require, module) {
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -934,7 +664,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _flux = require("flux");
+var _flux = require('flux');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -968,10 +698,10 @@ var DeployDispatcher = function (_Dispatcher) {
   }
 
   _createClass(DeployDispatcher, [{
-    key: "handleViewAction",
+    key: 'handleViewAction',
     value: function handleViewAction(action) {
       this.dispatch({
-        source: "VIEW_ACTION",
+        source: 'VIEW_ACTION',
         action: action
       });
     }
@@ -984,7 +714,7 @@ var instance = new DeployDispatcher();
 exports.default = instance;
 });
 
-;require.register("initialize.js", function(exports, require, module) {
+require.register("initialize.js", function(exports, require, module) {
 'use strict';
 
 var _reactDom = require('react-dom');
@@ -1054,10 +784,6 @@ var _utils = require('flux/utils');
 var _PipelineStore = require('../stores/PipelineStore');
 
 var _PipelineStore2 = _interopRequireDefault(_PipelineStore);
-
-var _Pipelines = require('../components/Pipelines');
-
-var _Pipelines2 = _interopRequireDefault(_Pipelines);
 
 var _StageForm = require('../components/StageForm');
 
@@ -1152,11 +878,18 @@ var EditPipeline = function (_React$Component) {
   return EditPipeline;
 }(_react2.default.Component);
 
+EditPipeline.propTypes = {
+  params: {
+    name: _react2.default.PropTypes.string
+  }
+};
+
+
 var EditPipelineContainer = _utils.Container.create(EditPipeline, { pure: false, withProps: true });
 exports.default = EditPipelineContainer;
 });
 
-;require.register("pages/Overview.jsx", function(exports, require, module) {
+require.register("pages/Overview.jsx", function(exports, require, module) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1277,8 +1010,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-var CHANGE_EVENT = "change";
-
 var PipelineStore = function (_ReduceStore) {
   _inherits(PipelineStore, _ReduceStore);
 
@@ -1308,7 +1039,7 @@ var PipelineStore = function (_ReduceStore) {
         case _DeployConstants.CompleteState:
           return action.action.payload.pipelines;
         default:
-          console.log("Recieved Unhandled Action", action);
+          console.log('Recieved Unhandled Action', action);
           return state;
       }
     }

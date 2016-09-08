@@ -25,24 +25,29 @@ import Panel from 'muicss/lib/react/panel';
 
 import { Container } from 'flux/utils';
 
-import PipelineStore from '../stores/PipelineStore'
-import Pipelines from '../components/Pipelines'
-import StageForm from '../components/StageForm'
+import PipelineStore from '../stores/PipelineStore';
+import StageForm from '../components/StageForm';
 
 class EditPipeline extends React.Component {
+  static propTypes = {
+    params: {
+      name: React.PropTypes.string
+    }
+  }
+
   static getStores() {
-    return [PipelineStore]
+    return [PipelineStore];
   }
 
   static calculateState(prevState, props) {
     return {
       pipeline: PipelineStore.getPipeline(props.params.name)
-    }
+    };
   }
 
   addStage(e) {
     e.preventDefault();
-    this.setState({stages: this.state.pipeline.stages.concat([{}])})
+    this.setState({stages: this.state.pipeline.stages.concat([{}])});
   }
 
   render() {
@@ -55,7 +60,7 @@ class EditPipeline extends React.Component {
            <div id="stages">{this.state.pipeline.stages.map(function(stage, idx) {
              return (
                <StageForm stage={stage} key={idx} />
-             )
+             );
            }.bind(this))}</div>
            <Button color="primary" onClick={this.addStage.bind(this)}>
              Add Stage
@@ -68,5 +73,5 @@ class EditPipeline extends React.Component {
   }
 }
 
-const EditPipelineContainer = Container.create(EditPipeline, {pure: false, withProps: true})
-export default EditPipelineContainer
+const EditPipelineContainer = Container.create(EditPipeline, {pure: false, withProps: true});
+export default EditPipelineContainer;

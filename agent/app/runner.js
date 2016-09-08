@@ -16,7 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import DummyStage from './stages/dummyStage'
+import DummyStage from './stages/dummyStage';
+import { logger } from './util/logger';
 
 export default class Runner {
   constructor(ws) {
@@ -25,19 +26,19 @@ export default class Runner {
 
   async run(pipeline) {
     try {
-      console.log('Starting to run', pipeline);
+      logger.info('Starting to run', pipeline);
       for (let stage of pipeline.stages) {
-        console.log('Starting stage', stage.name);
+        logger.info('Starting stage', stage.name);
         //TODO select which stage type to run here.
         let stageRunner = new DummyStage();
         //TODO Pass log output back to the websocket.
         await stageRunner.run();
-        console.log('Stage', stage.name, 'complete');
+        logger.info('Stage', stage.name, 'complete');
       }
-      console.log('Run complete! Notifying server.');
-      this._ws.send(JSON.stringify({ type: "agent-complete", pipeline: pipeline }));
+      logger.info('Run complete! Notifying server.');
+      this._ws.send(JSON.stringify({ type: 'agent-complete', pipeline: pipeline }));
     } catch (err) {
-      console.error("ERROR:", err);
+      logger.error(err);
     }
   }
 }

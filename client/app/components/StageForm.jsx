@@ -21,6 +21,12 @@ import Input from 'muicss/lib/react/input';
 import Panel from 'muicss/lib/react/panel';
 
 export default class StageForm extends React.Component {
+  static propTypes = {
+    stage: {
+      name: React.PropTypes.string
+    }
+  }
+
   render() {
     return (
       <Panel>
@@ -29,6 +35,6 @@ export default class StageForm extends React.Component {
                defaultValue={this.props.stage.name}
                onChange={this.handleNameChange} />
       </Panel>
-    )
+    );
   }
 }

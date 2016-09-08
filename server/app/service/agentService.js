@@ -15,45 +15,46 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import { logger } from '../util/logger';
 
 export default class AgentService {
   constructor() {
-    this.buildQueue = [];
-    this.agents = {
+    this._agents = {
       idle: [],
       building: []
-    }
+    };
+    this._buildQueue = [];
   }
 
   add(agent) {
-    this.agents.idle.push(agent);
-    console.log('Agents Status: ', this.agents);
+    this._agents.idle.push(agent);
+    logger.debug('Agents Status: ', this._agents);
   }
 
   remove(agent) {
-    let idx = this.agents.idle.indexOf(agent);
+    let idx = this._agents.idle.indexOf(agent);
     if (idx === -1) {
-      idx = this.agents.building.indexOf(agent);
-      this.agents.building.splice(idx, 1);
+      idx = this._agents.building.indexOf(agent);
+      this._agents.building.splice(idx, 1);
     } else {
-      this.agents.idle.splice(idx, 1);
+      this._agents.idle.splice(idx, 1);
     }
   }
 
   queue(pipeline) {
-    if (this.agents.idle.length === 0) {
-      console.log('Adding build to queue', JSON.stringify(pipeline));
-      this.buildQueue.push(pipeline);
+    if (this._agents.idle.length === 0) {
+      logger.info('Adding build to queue', JSON.stringify(pipeline));
+      this._buildQueue.push(pipeline);
     } else {
-      console.log('Assigning build to agent')
+      logger.info('Assigning build to agent');
       this._assignAgent(pipeline);
     }
   }
 
   _assignAgent(pipeline) {
-    console.log('Sending pipeline to agent', JSON.stringify(pipeline));
-    var agent = this.agents.idle.shift();
-    this.agents.building.push(agent);
+    logger.debug('Sending pipeline to agent', JSON.stringify(pipeline));
+    var agent = this._agents.idle.shift();
+    this._agents.building.push(agent);
     agent.send(JSON.stringify(pipeline));
   }
 }

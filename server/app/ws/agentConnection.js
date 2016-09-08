@@ -16,12 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 import Connection from './connection';
+import { logger } from '../util/logger';
 
 export default class AgentConnection extends Connection {
   constructor(ws) {
     super(ws);
     this.ws.on('message', (message) => {
-      console.log('received client message:', message);
+      logger.debug('Received agent message:', message);
     });
   }
 }

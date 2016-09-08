@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import { logger } from '../util/logger';
 
 export default class PipelineService {
   constructor(agentService, pipelineDb) {
@@ -23,7 +24,11 @@ export default class PipelineService {
   }
 
   async launch(id) {
-    console.log("Launching pipeline with id", id);
-    this.agentService.queue(await this.pipelineDb.getById(id));
+    try {
+      logger.info('Launching pipeline with id', id);
+      this.agentService.queue(await this.pipelineDb.getById(id));
+    } catch (err) {
+      logger.error(err);
+    }
   }
 }

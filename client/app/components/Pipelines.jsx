@@ -25,18 +25,18 @@ import Container from 'muicss/lib/react/container';
 import Row from 'muicss/lib/react/row';
 import Col from 'muicss/lib/react/col';
 
-import PipelineStore from '../stores/PipelineStore'
-import StageVisualiser from '../components/StageVisualiser'
+import PipelineStore from '../stores/PipelineStore';
+import StageVisualiser from '../components/StageVisualiser';
 
 class Pipelines extends React.Component {
   static getStores() {
-    return [PipelineStore]
+    return [PipelineStore];
   }
 
-  static calculateState(prevState) {
+  static calculateState() {
     return {
       pipelines: PipelineStore.getState()
-    }
+    };
   }
 
   render() {
@@ -54,16 +54,16 @@ class Pipelines extends React.Component {
               <hr/>
               <StageVisualiser stages={pipeline.stages} triggers={pipeline.triggers} />
               <hr/>
-              <Link to={"/pipeline/edit/" + pipeline.name}>
+              <Link to={'/pipeline/edit/' + pipeline.name}>
                 <Button color="primary">Edit Pipeline</Button>
               </Link>
             </Panel>
-          )
+          );
         })
       }</div>
-    )
+    );
   }
 }
 
-const PipelinesContainer = FluxContainer.create(Pipelines)
-export default PipelinesContainer
+const PipelinesContainer = FluxContainer.create(Pipelines);
+export default PipelinesContainer;

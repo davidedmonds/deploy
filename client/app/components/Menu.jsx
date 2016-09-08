@@ -18,7 +18,7 @@
 
 import React from 'react';
 import Appbar from 'muicss/lib/react/appbar';
-import WebsocketIndicator from './WebsocketIndicator'
+import WebsocketIndicator from './WebsocketIndicator';
 
 export default class Menu extends React.Component {
   render() {

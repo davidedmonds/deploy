@@ -15,21 +15,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import { logger } from '../util/logger';
+
 const tables = ['pipelines'];
 
 export default async function DbInit(r) {
+  logger.info('Checking db status an upgrading if required');
   let conn = await r.connect({ host: '172.17.0.1', port: 28015 });
   let dbs = await r.dbList().run(conn);
   if (!dbs.includes('deploy')) {
-    console.log('Database does not exist, creating...');
+    logger.debug('Database does not exist, creating...');
     await r.dbCreate('deploy').run(conn);
   }
   let tableList = await r.db('deploy').tableList().run(conn);
   await tables.forEach((table) => {
     if (!tableList.includes(table)) {
-      console.log('Creating missing table', table);
+      logger.debug('Creating missing table', table);
       r.db('deploy').tableCreate(table).run(conn);
     }
   });
-  console.log('DB init complete');
+  logger.info('DB status check complete');
 }

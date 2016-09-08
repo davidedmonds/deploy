@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 import Docker from 'dockerode-promise-es6';
+import { logger } from '../util/logger';
 
 export default class DummyStage {
   constructor() {
@@ -23,13 +24,13 @@ export default class DummyStage {
   }
 
   async run() {
-    let result = await this._docker.run('node:6-slim', ['bash', '-c', 'uname -a'], process.stdout);
-    console.log('Ran in Container', result.container.id);
-    // - Push the resulting container back to the registry
     try {
+      let result = await this._docker.run('node:6-slim', ['bash', '-c', 'uname -a'], process.stdout);
+      logger.info('Ran in Container', result.container.id);
+      // - Push the resulting container back to the registry
       await result.container.remove({});
     } catch(err) {
-      console.log('Error: ', err);
+      logger.error(err);
     }
   }
 }

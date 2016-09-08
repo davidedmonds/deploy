@@ -18,8 +18,9 @@
 import { Server as WebSocketServer } from 'ws';
 import url from 'url';
 
-import AgentConnection from './agentConnection'
-import ClientConnection from './clientConnection'
+import AgentConnection from './agentConnection';
+import ClientConnection from './clientConnection';
+import { logger } from '../util/logger';
 
 export default class WebSocket {
   constructor(server, agentService) {
@@ -32,18 +33,18 @@ export default class WebSocket {
   handleConnection(ws) {
     var location = url.parse(ws.upgradeReq.url, true);
     if (location.path.match(/\/client/)) {
-      var conn = new ClientConnection(ws);
+      let conn = new ClientConnection(ws);
       this.connections.client.push(conn);
-      ws.on('close', (ws) => {
-        console.log('Closing client connection')
+      ws.on('close', () => {
+        logger.info('Closing client connection');
         this.connections.client.splice(this.connections.client.indexOf(conn), 1);
       });
       conn.send('server calling out to client');
     } else if (location.path.match(/\/agent/)) {
-      var conn = new AgentConnection(ws);
+      let conn = new AgentConnection(ws);
       this.connections.agent.push(conn);
-      ws.on('close', (ws) => {
-        console.log('Closing agent connection')
+      ws.on('close', () => {
+        logger.info('Closing agent connection');
         this.connections.agent.splice(this.connections.agent.indexOf(conn), 1);
         this.agentService.remove(conn);
       });

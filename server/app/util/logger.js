@@ -15,15 +15,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-import Connection from './connection';
-import { logger } from '../util/logger';
 
-export default class ClientConnection extends Connection {
-  constructor(ws) {
-    super(ws);
+import log4js from 'log4js';
 
-    this.ws.on('message', function incoming(message) {
-      logger.debug('Received client message:', message);
-    });
-  }
-}
+export const logger = log4js.getLogger();

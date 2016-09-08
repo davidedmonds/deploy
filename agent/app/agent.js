@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import { logger } from './util/logger';
 
 export default class Agent {
   constructor(ws, runner) {
@@ -28,15 +29,15 @@ export default class Agent {
     this.ws.send('Agent Checking In');
   }
 
-  message(data, flags) {
+  message(data) {
     var pipeline;
     try {
       pipeline = JSON.parse(data);
     } catch(e) {
-      console.log('Recieved non-json data:', data);
+      logger.info('Recieved non-json data:', data);
     }
     if(pipeline) {
-      console.log("Received Pipeline:", pipeline.id);
+      logger.debug('Received Pipeline:', pipeline.id);
       this.runner.run(pipeline);
     }
   }

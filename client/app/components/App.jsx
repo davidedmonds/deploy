@@ -19,18 +19,21 @@
 import React from 'react';
 import Container from 'muicss/lib/react/container';
 
-import Menu from './Menu'
-import Footer from './Footer'
-import Overview from '../pages/Overview'
+import Menu from './Menu';
+import Footer from './Footer';
 
 export default class App extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.node
+  }
+
   render() {
     return (
       <div id="content">
         <Menu />
         <div className="mui--appbar-min-height">&nbsp;</div>
         <Container fluid={true}>
-          {this.props.children}
+          { this.props.children }
         </Container>
         <Container fluid={true}>
           <Footer />

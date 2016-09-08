@@ -15,28 +15,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-
 import restify from 'restify';
+
+import { logger } from '../util/logger';
 
 export default class RestServer {
   constructor(pipelineService) {
-    this.pipelineService = pipelineService;
-    
-    this.server = restify.createServer();
-    this.server.get('/', (req, res, next) => {
-      console.log("I ARE GET /");
-      res.send('WOOP');
+    this._pipelineService = pipelineService;
+
+    this._server = restify.createServer();
+    this._server.get('/', (req, res, next) => {
+      res.send('Deploy API Server.');
+      //TODO redirect to client here?
       next();
     });
-    this.server.put('/pipeline/:id/launch', (req, res, next) => {
-      this.pipelineService.launch(req.params.id);
+    this._server.put('/pipeline/:id/launch', (req, res, next) => {
+      this._pipelineService.launch(req.params.id);
       res.send(202);
       return next();
-    })
+    });
   }
 
   start() {
-    this.server.listen(8080,
-      () => console.log('%s listening on %s', this.server.name, this.server.url));
+    this._server.listen(8080,
+      () => logger.info('%s listening on %s', this._server.name, this._server.url));
   }
 }

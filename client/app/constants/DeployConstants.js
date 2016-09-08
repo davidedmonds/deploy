@@ -1,1 +1,1 @@
-export const CompleteState = "completeState"
+export const CompleteState = 'completeState';

@@ -26,12 +26,10 @@ import RestServer from './rest/restServer';
 import WebSocket from './ws/webSocket';
 
 const db = r({
-  servers: [ { host: "172.17.0.1", port:28015 } ]
+  servers: [ { host: '172.17.0.1', port:28015 } ]
 });
 
-console.log('Checking db status an upgrading if required');
 DbSchema(db);
-console.log('DB status check complete');
 
 const pipelineDb = new PipelineDb(db);
 
@@ -39,6 +37,6 @@ const agentService = new AgentService();
 const pipelineService = new PipelineService(agentService, pipelineDb);
 
 const rs = new RestServer(pipelineService);
-const ws = new WebSocket(rs.server, agentService);
+new WebSocket(rs._server, agentService);
 
 rs.start();

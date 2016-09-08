@@ -33,10 +33,13 @@ module.exports = {
   },
 
   server: {
-    hostname: "0.0.0.0"
+    hostname: '0.0.0.0'
   },
 
   plugins: {
-    babel: {presets: ['es2015', 'react']}
+    babel: {
+      presets: ['es2015', 'react'],
+      plugins: ['transform-class-properties']
+    }
   }
 };
