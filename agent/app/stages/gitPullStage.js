@@ -16,27 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import GitPullStage from './stages/gitPullStage';
-import { logger } from './util/logger';
+import DockerStage from './dockerStage';
+import { logger } from '../util/logger';
 
-export default class Runner {
-  constructor(ws) {
-    this._ws = ws;
-  }
+export default class GitPullStage extends DockerStage {
 
-  async run(pipeline) {
+  async runStage(pipeline, stage) {
     try {
-      logger.info('Starting to run', pipeline);
-      for (let stage of pipeline.stages) {
-        logger.info('Starting stage', stage.name);
-        //TODO select which stage type to run here.
-        let stageRunner = new GitPullStage();
-        //TODO Pass log output back to the websocket.
-        await stageRunner.run(pipeline, stage);
-        logger.info('Stage', stage.name, 'complete');
-      }
-      logger.info('Run complete! Notifying server.');
-      this._ws.send(JSON.stringify({ type: 'agent-complete', pipeline: pipeline }));
+      //TODO set a sensible version number for the runner containers.
+      //TODO set output volume as part of this run so that we can capture results
+      logger.trace('Starting to run stage', stage.name);
+      let result = await this._docker.run('deploy-git-pull:latest', ['git', 'clone', stage.repo], process.stdout);
+      logger.trace('Stage', stage.name, 'started');
+      await result.container.wait();
+      logger.trace('Stage', stage.name, 'complete, returning...');
+      return result;
     } catch (err) {
       logger.error(err);
     }

@@ -16,28 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import GitPullStage from './stages/gitPullStage';
-import { logger } from './util/logger';
+import Docker from 'dockerode-promise-es6';
 
-export default class Runner {
-  constructor(ws) {
-    this._ws = ws;
+import { logger } from '../util/logger';
+
+export default class DockerStage {
+  constructor() {
+    if (this.runStage === undefined) {
+      throw new TypeError('RunStage must be defined');
+    }
+    this._docker = new Docker();
   }
 
-  async run(pipeline) {
+  async run(pipeline, stage) {
     try {
-      logger.info('Starting to run', pipeline);
-      for (let stage of pipeline.stages) {
-        logger.info('Starting stage', stage.name);
-        //TODO select which stage type to run here.
-        let stageRunner = new GitPullStage();
-        //TODO Pass log output back to the websocket.
-        await stageRunner.run(pipeline, stage);
-        logger.info('Stage', stage.name, 'complete');
-      }
-      logger.info('Run complete! Notifying server.');
-      this._ws.send(JSON.stringify({ type: 'agent-complete', pipeline: pipeline }));
-    } catch (err) {
+      let result = await this.runStage(pipeline, stage);
+      await result.container.remove({});
+    } catch(err) {
       logger.error(err);
     }
   }
