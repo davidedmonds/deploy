@@ -17,11 +17,18 @@
 //
 
 export default class Connection {
-  constructor(ws) {
+  constructor(ws, id) {
     this.ws = ws;
+    this.id = id;
+    //TODO perform 'abstract' check
+    this.ws.on('message', (message) => this._handleMessage(message));
+    this.ws.on('close', () => this._handleClose());
   }
 
   send(msg) {
+    if (typeof msg !== 'string') {
+      msg = JSON.stringify(msg);
+    }
     this.ws.send(msg);
   }
 }

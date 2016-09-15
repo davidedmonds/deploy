@@ -30,15 +30,22 @@ export default class Agent {
   }
 
   message(data) {
-    var pipeline;
+    var messageObject;
     try {
-      pipeline = JSON.parse(data);
+      messageObject = JSON.parse(data);
     } catch(e) {
-      logger.info('Recieved non-json data:', data);
+      logger.debug('Recieved non-json data:', data);
     }
-    if(pipeline) {
-      logger.debug('Received Pipeline:', pipeline.id);
-      this.runner.run(pipeline);
+    if(messageObject) {
+      if(messageObject.type === 'task') {
+        logger.debug('Received Pipeline:', messageObject.payload.id);
+        this.runner.run(messageObject.payload);
+      } else if(messageObject.type === 'config') {
+        logger.debug('Received Config:', messageObject.payload);
+        this._id = messageObject.payload.id;
+      } else {
+        logger.debug('Recieved unhandled JSON message', messageObject);
+      }
     }
   }
 }

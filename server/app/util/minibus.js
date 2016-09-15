@@ -16,30 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import r from 'rethinkdbdash';
+import Minibus from 'minibus';
 
-import DbSchema from './db/dbSchema';
-import PipelineDb from './db/pipelineDb';
-
-import RestServer from './rest/restServer';
-
-import AgentService from './service/agentService';
-import PipelineService from './service/pipelineService';
-
-import WebSocket from './ws/webSocket';
-
-const db = r({
-  servers: [ { host: '172.17.0.1', port:28015 } ]
-});
-
-DbSchema(db);
-
-const pipelineDb = new PipelineDb(db);
-
-const agentService = new AgentService();
-const pipelineService = new PipelineService(agentService, pipelineDb);
-
-const rs = new RestServer(pipelineService);
-new WebSocket(rs._server, agentService);
-
-rs.start();
+export const bus = Minibus.create();

@@ -16,40 +16,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 import { Server as WebSocketServer } from 'ws';
+import shortid from 'shortid';
 import url from 'url';
 
-import AgentConnection from './agentConnection';
 import ClientConnection from './clientConnection';
+
+import { AGENT, CLIENT } from '../constants/actions';
+
+import { bus } from '../util/minibus';
 import { logger } from '../util/logger';
 
 export default class WebSocket {
   constructor(server, agentService) {
     this.agentService = agentService;
     this.wss = new WebSocketServer({ server: server });
-    this.connections = { agent: [], client: [] };
+    this.connections = { agent: new Map(), client: new Map() };
     this.wss.on('connection', (ws) => this.handleConnection(ws));
+
+    bus.on(CLIENT.CONNECTED, this._clientConnected);
+    bus.on(CLIENT.DISCONNECTED, this._clientDisconnected);
   }
 
   handleConnection(ws) {
-    var location = url.parse(ws.upgradeReq.url, true);
+    let location = url.parse(ws.upgradeReq.url, true);
+    let id = shortid.generate();
     if (location.path.match(/\/client/)) {
-      let conn = new ClientConnection(ws);
-      this.connections.client.push(conn);
-      ws.on('close', () => {
-        logger.info('Closing client connection');
-        this.connections.client.splice(this.connections.client.indexOf(conn), 1);
-      });
-      conn.send('server calling out to client');
+      bus.emit(CLIENT.CONNECTED, id, ws);
     } else if (location.path.match(/\/agent/)) {
-      let conn = new AgentConnection(ws);
-      this.connections.agent.push(conn);
-      ws.on('close', () => {
-        logger.info('Closing agent connection');
-        this.connections.agent.splice(this.connections.agent.indexOf(conn), 1);
-        this.agentService.remove(conn);
-      });
-      this.agentService.add(conn);
-      conn.send('server calling out to agent');
+      bus.emit(AGENT.CONNECTED, id, ws);
     }
+  }
+
+//TODO move this to some kind of ClientService class
+  _clientConnected(id, ws) {
+    let config = {
+      type: 'config',
+      payload: {
+        id: id
+      }
+    };
+    let conn = new ClientConnection(ws, id);
+    this.connections.client.set(id, conn);
+    ws.on('close', () => bus.emit(CLIENT.DISCONNECTED, id));
+    conn.send(config);
+  }
+
+  _clientDisconnected(id) {
+    logger.info('Closing client connection');
+    this.connections.client.delete(id);
   }
 }

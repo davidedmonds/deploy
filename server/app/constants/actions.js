@@ -15,14 +15,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-import Connection from './connection';
-import { logger } from '../util/logger';
 
-export default class AgentConnection extends Connection {
-  constructor(ws) {
-    super(ws);
-    this.ws.on('message', (message) => {
-      logger.debug('Received agent message:', message);
-    });
-  }
-}
+export const AGENT = {
+  CONNECTED: 'actions.agent.connected',
+  DISCONNECTED: 'actions.agent.disconnected',
+  TASK_COMPLETED: 'actions.agent.taskCompleted'
+};
+
+export const CLIENT = {
+  CONNECTED: 'actions.client.connected',
+  DISCONNECTED: 'actions.client.disconnected'
+};

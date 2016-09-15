@@ -15,15 +15,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-import Connection from './connection';
+import { AGENT } from '../constants/actions';
+import { BUILDING, IDLE } from '../constants/status';
+
+import { bus } from '../util/minibus';
 import { logger } from '../util/logger';
 
-export default class ClientConnection extends Connection {
+import Connection from '../ws/connection';
+
+export default class Agent extends Connection {
   constructor(ws, id) {
     super(ws, id);
-
-    this.ws.on('message', function incoming(message) {
-      logger.debug('Received client message:', message);
+    this.send({
+      type: 'config',
+      payload: {
+        id: id
+      }
     });
+    this.status = IDLE;
+  }
+
+  assign(pipeline) {
+    logger.debug('Sending pipeline to agent', pipeline);
+    this.status = BUILDING;
+    this.send({
+      type: 'task',
+      payload: pipeline
+    });
+  }
+
+  _handleClose() {
+    logger.debug('Handling agent disconnect...');
+    bus.emit(AGENT.DISCONNECTED, this.id);
+  }
+
+  _handleMessage(message) {
+    logger.debug('Agent sent message', message);
+    if (message.type === AGENT.TASK_COMPLETED) {
+      this.status = IDLE;
+      bus.emit(AGENT.TASK_COMPLETED, this.id);
+    }
   }
 }

@@ -15,46 +15,58 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+import { AGENT } from '../constants/actions';
+import { IDLE } from '../constants/status';
+
+import Agent from '../domain/agent';
+
+import { bus } from '../util/minibus';
 import { logger } from '../util/logger';
 
 export default class AgentService {
   constructor() {
-    this._agents = {
-      idle: [],
-      building: []
-    };
+    this._agents = new Map();
     this._buildQueue = [];
+    bus.on(AGENT.CONNECTED, (id, ws) => this.add(id, ws));
+    bus.on(AGENT.DISCONNECTED, (id) => this.remove(id));
+    bus.on(AGENT.TASK_COMPLETED, (id) => this.taskCompleted(id));
   }
 
-  add(agent) {
-    this._agents.idle.push(agent);
-    logger.debug('Agents Status: ', this._agents);
+  _agentDisconnected(id) {
+    logger.info('Closing agent connection');
+    this.connections.agent.delete(id);
   }
 
-  remove(agent) {
-    let idx = this._agents.idle.indexOf(agent);
-    if (idx === -1) {
-      idx = this._agents.building.indexOf(agent);
-      this._agents.building.splice(idx, 1);
-    } else {
-      this._agents.idle.splice(idx, 1);
-    }
+  add(id, ws) {
+    logger.info('New agent added with id', id);
+    let conn = new Agent(ws, id);
+    this._agents.set(id, conn);
+  }
+
+  remove(id) {
+    logger.info('Agent', id, 'disconnected.');
+    this._agents.delete(id);
   }
 
   queue(pipeline) {
-    if (this._agents.idle.length === 0) {
+    let agent = [...this._agents]
+      .map(([, agent]) => agent)
+      .filter((agent) => agent.status === IDLE)
+      .shift();
+    if (agent === undefined) {
       logger.info('Adding build to queue', JSON.stringify(pipeline));
       this._buildQueue.push(pipeline);
     } else {
-      logger.info('Assigning build to agent');
-      this._assignAgent(pipeline);
+      logger.info('Assigning build to agent', agent);
+      agent.assign(pipeline);
     }
   }
 
-  _assignAgent(pipeline) {
-    logger.debug('Sending pipeline to agent', JSON.stringify(pipeline));
-    var agent = this._agents.idle.shift();
-    this._agents.building.push(agent);
-    agent.send(JSON.stringify(pipeline));
+  taskCompleted(id) {
+    logger.info('Agent', id, 'completed its task. Selecting a new one...');
+    let pipeline = this._buildQueue.shift();
+    if (pipeline !== undefined) {
+      this.queue(pipeline);
+    }
   }
 }

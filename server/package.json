@@ -15,8 +15,10 @@
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-regenerator": "^6.14.0",
     "log4js": "^0.6.38",
+    "minibus": "^3.1.0",
     "restify": "^4.1.1",
     "rethinkdbdash": "^2.3.21",
+    "shortid": "^2.2.6",
     "ws": "^1.1.1"
   },
   "devDependencies": {

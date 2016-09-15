@@ -36,7 +36,7 @@ export default class Runner {
         logger.info('Stage', stage.name, 'complete');
       }
       logger.info('Run complete! Notifying server.');
-      this._ws.send(JSON.stringify({ type: 'agent-complete', pipeline: pipeline }));
+      this._ws.send(JSON.stringify({ type: 'actions.agent.taskCompleted', pipeline: pipeline }));
     } catch (err) {
       logger.error(err);
     }
