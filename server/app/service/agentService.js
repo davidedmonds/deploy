@@ -32,11 +32,6 @@ export default class AgentService {
     bus.on(AGENT.TASK_COMPLETED, (id) => this.taskCompleted(id));
   }
 
-  _agentDisconnected(id) {
-    logger.info('Closing agent connection');
-    this.connections.agent.delete(id);
-  }
-
   add(id, ws) {
     logger.info('New agent added with id', id);
     let conn = new Agent(ws, id);
@@ -44,7 +39,7 @@ export default class AgentService {
   }
 
   remove(id) {
-    logger.info('Agent', id, 'disconnected.');
+    logger.info('Agent', id, 'disconnected');
     this._agents.delete(id);
   }
 

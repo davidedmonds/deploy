@@ -9,11 +9,10 @@
   },
   "scripts": {
     "start": "forever -f -c babel-node -t --watch --watchDirectory ./app/ ./app/initialize.js",
-    "test": "ava"
+    "test": "ava --require babel-register",
+    "watch:test": "ava --watch --require babel-register"
   },
   "dependencies": {
-    "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-regenerator": "^6.14.0",
     "log4js": "^0.6.38",
     "minibus": "^3.1.0",
     "restify": "^4.1.1",
@@ -25,9 +24,16 @@
     "ava": "^0.16.0",
     "babel-cli": "^6.14.0",
     "babel-eslint": "^6.1.2",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.14.0",
     "babel-preset-es2015": "~6.14.0",
     "eslint": "^3.4.0",
+    "eslint-plugin-ava": "^3.0.0",
     "eslint-plugin-react": "^6.2.0",
-    "forever": "^0.15.2"
+    "forever": "^0.15.2",
+    "testdouble": "^1.6.1"
+  },
+  "ava": {
+    "babel": "inherit"
   }
 }
