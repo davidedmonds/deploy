@@ -15,15 +15,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-import { AGENT } from '../constants/actions';
-import { BUILDING, IDLE } from '../constants/status';
+import { CLIENT } from '../constants/actions';
+
+import Connection from './connection';
 
 import { bus } from '../util/minibus';
 import { logger } from '../util/logger';
 
-import Connection from '../ws/connection';
-
-export default class Agent extends Connection {
+export default class Client extends Connection {
   constructor(ws, id) {
     super(ws, id);
     this.send({
@@ -32,28 +31,14 @@ export default class Agent extends Connection {
         id: id
       }
     });
-    this.status = IDLE;
-  }
-
-  assign(pipeline) {
-    logger.debug('Sending pipeline to agent', pipeline);
-    this.status = BUILDING;
-    this.send({
-      type: 'task',
-      payload: pipeline
-    });
   }
 
   _handleClose() {
-    logger.debug('Handling agent disconnect...');
-    bus.emit(AGENT.DISCONNECTED, this.id);
+    logger.debug('Handling client disconnect...');
+    bus.emit(CLIENT.DISCONNECTED, this.id);
   }
 
   _handleMessage(message) {
-    logger.debug('Agent sent message', message);
-    if (message.type === AGENT.TASK_COMPLETED) {
-      this.status = IDLE;
-      bus.emit(AGENT.TASK_COMPLETED, this.id);
-    }
+    logger.debug('Received client message:', message);
   }
 }

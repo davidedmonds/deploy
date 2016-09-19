@@ -22,7 +22,7 @@ import td from 'testdouble';
 import { AGENT } from '../../app/constants/actions';
 import { IDLE } from '../../app/constants/status';
 
-import Agent from '../../app/domain/agent';
+import Agent from '../../app/connection/agent';
 
 import AgentService from '../../app/service/agentService';
 
@@ -31,7 +31,6 @@ import { logger } from '../../app/util/logger';
 
 function isListeningFor(t, input) {
   td.replace(bus, 'on');
-  td.replace(logger, 'debug');
   new AgentService();
   td.verify(bus.on(input, td.matchers.isA(Function)));
 }
@@ -44,8 +43,7 @@ test('Agent Task Completed', isListeningFor, AGENT.TASK_COMPLETED);
 
 test('The Agent Service should log when agents connect', () => {
   let ws = td.object(['on', 'send']);
-  td.replace(logger, 'info');
-  td.replace('../../app/domain/agent');
+  td.replace('../../app/connection/agent');
   let agentService = new AgentService();
   agentService.add('fakeId', ws);
   td.verify(logger.info('New agent added with id', 'fakeId'));
@@ -53,22 +51,19 @@ test('The Agent Service should log when agents connect', () => {
 
 test('The Agent Service should instantiate and store an Agent handle when it connects', t => {
   let ws = td.object(['on', 'send']);
-  td.replace(logger, 'info');
-  td.replace('../../app/domain/agent');
+  td.replace('../../app/connection/agent');
   let agentService = new AgentService();
   agentService.add('fakeId', ws);
   t.true(agentService._agents.has('fakeId'));
 });
 
 test('The Agent Service should log when agents disconnect', () => {
-  td.replace(logger, 'info');
   let agentService = new AgentService();
   agentService.remove('fakeId');
   td.verify(logger.info('Agent', 'fakeId', 'disconnected'));
 });
 
 test('The Agent Service should remove agents that have disconnected', t => {
-  td.replace(logger, 'info');
   let agentService = new AgentService();
   agentService._agents.set('fakeId', { fake: 'agent' });
   agentService.remove('fakeId');
@@ -76,7 +71,6 @@ test('The Agent Service should remove agents that have disconnected', t => {
 });
 
 test('When no agents are available, the Agent Service should store jobs for later', t => {
-  td.replace(logger, 'info');
   let pipeline = { type: 'pipeline'};
   let agentService = new AgentService();
   agentService.queue(pipeline);
@@ -84,7 +78,6 @@ test('When no agents are available, the Agent Service should store jobs for late
 });
 
 test('When no agents are available, the Agent Service should log that it is storing the job', () => {
-  td.replace(logger, 'info');
   let pipeline = { type: 'pipeline'};
   let agentService = new AgentService();
   agentService.queue(pipeline);
@@ -92,7 +85,6 @@ test('When no agents are available, the Agent Service should log that it is stor
 });
 
 test('When agents are available, the Agent Service should assign incoming pipelines to one', () => {
-  td.replace(logger, 'info');
   let pipeline = { type: 'pipeline'};
   let agent = td.object(Agent);
   agent.status = IDLE;
@@ -103,7 +95,6 @@ test('When agents are available, the Agent Service should assign incoming pipeli
 });
 
 test('When agents are available, the Agent Service should log that it is assigning the job', () => {
-  td.replace(logger, 'info');
   let pipeline = { type: 'pipeline'};
   let agent = td.object(Agent);
   agent.status = IDLE;
@@ -114,7 +105,6 @@ test('When agents are available, the Agent Service should log that it is assigni
 });
 
 test('When an agent has completed, the Agent Service should log about it', () => {
-  td.replace(logger, 'info');
   let agent = td.object(Agent);
   agent.status = IDLE;
   let agentService = new AgentService();
@@ -124,7 +114,6 @@ test('When an agent has completed, the Agent Service should log about it', () =>
 });
 
 test('When an agent has completed, and there are queued builds, the Agent Service should assign a new job', () => {
-  td.replace(logger, 'info');
   let pipeline = { type: 'pipeline'};
   let agent = td.object(Agent);
   agent.status = IDLE;
@@ -136,13 +125,17 @@ test('When an agent has completed, and there are queued builds, the Agent Servic
 });
 
 test('When an agent has completed, and there are no queued builds, the Agent Service should do nothing', () => {
-  td.replace(logger, 'info');
   let agent = td.object(Agent);
   agent.status = IDLE;
   let agentService = new AgentService();
   agentService._agents.set('fakeId', agent);
   agentService.taskCompleted('fakeId');
   td.verify(agent.assign(), { times: 0, ignoreExtraArgs: true});
+});
+
+test.beforeEach(() => {
+  td.replace(logger, 'info');
+  td.replace(logger, 'debug');
 });
 
 test.afterEach(() => {

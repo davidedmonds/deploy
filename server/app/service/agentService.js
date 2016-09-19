@@ -18,7 +18,7 @@
 import { AGENT } from '../constants/actions';
 import { IDLE } from '../constants/status';
 
-import Agent from '../domain/agent';
+import Agent from '../connection/agent';
 
 import { bus } from '../util/minibus';
 import { logger } from '../util/logger';

@@ -19,69 +19,51 @@
 import test from 'ava';
 import td from 'testdouble';
 
-import { AGENT } from '../../app/constants/actions';
-import { IDLE } from '../../app/constants/status';
+import { CLIENT } from '../../app/constants/actions';
 
-import Agent from '../../app/domain/agent';
+import Client from '../../app/connection/client';
 
 import { bus } from '../../app/util/minibus';
 import { logger } from '../../app/util/logger';
 
-test('An agent should start idle', t => {
+test('A client should send configuration information on construction', () => {
   let ws = td.object(['on', 'send']);
-  let agent = new Agent(ws, 'fakeId');
-  t.is(agent.status, IDLE);
-});
-
-test('An agent should send configuration information on construction', () => {
-  let ws = td.object(['on', 'send']);
-  new Agent(ws, 'fakeId');
+  new Client(ws, 'fakeId');
   td.verify(ws.send(
     JSON.stringify({ type: 'config', payload: { id: 'fakeId' } })
   ));
 });
 
-test('An agent should log on all incoming messages', () => {
+test('A client should log on all incoming messages', () => {
   let ws = td.object(['on', 'send']);
   td.replace(logger, 'debug');
 
-  let agent = new Agent(ws, 'fakeId');
-  agent._handleMessage({ type: 'not an expected type' });
+  let client = new Client(ws, 'fakeId');
+  client._handleMessage({ type: 'not an expected type' });
 
-  td.verify(logger.debug('Agent sent message', { type: 'not an expected type' }));
+  td.verify(logger.debug('Received client message:', { type: 'not an expected type' }));
 });
 
-test('An agent should route incoming task complete messages to the event bus', () => {
+test('A client should log on close', () => {
   let ws = td.object(['on', 'send']);
   td.replace(bus, 'emit');
   td.replace(logger, 'debug');
 
-  let agent = new Agent(ws, 'fakeId');
-  agent._handleMessage({ type: AGENT.TASK_COMPLETED });
+  let client = new Client(ws, 'fakeId');
+  client._handleClose();
 
-  td.verify(bus.emit(AGENT.TASK_COMPLETED, 'fakeId'));
+  td.verify(logger.debug('Handling client disconnect...'));
 });
 
-test('An agent should log on close', () => {
+test('A client should send an event to the event bus on close', () => {
   let ws = td.object(['on', 'send']);
   td.replace(bus, 'emit');
   td.replace(logger, 'debug');
 
-  let agent = new Agent(ws, 'fakeId');
-  agent._handleClose();
+  let client = new Client(ws, 'fakeId');
+  client._handleClose();
 
-  td.verify(logger.debug('Handling agent disconnect...'));
-});
-
-test('An agent should send an event to the event bus on close', () => {
-  let ws = td.object(['on', 'send']);
-  td.replace(bus, 'emit');
-  td.replace(logger, 'debug');
-
-  let agent = new Agent(ws, 'fakeId');
-  agent._handleClose();
-
-  td.verify(bus.emit(AGENT.DISCONNECTED, 'fakeId'));
+  td.verify(bus.emit(CLIENT.DISCONNECTED, 'fakeId'));
 });
 
 test.afterEach(() => {
