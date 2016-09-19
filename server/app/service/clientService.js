@@ -15,28 +15,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-import { Server as WebSocketServer } from 'ws';
-import shortid from 'shortid';
-import url from 'url';
+import { CLIENT } from '../constants/actions';
 
-import { AGENT, CLIENT } from '../constants/actions';
+import Client from '../connection/client';
 
 import { bus } from '../util/minibus';
+import { logger } from '../util/logger';
 
-export default class WebSocket {
-  constructor(server, agentService) {
-    this.agentService = agentService;
-    this.wss = new WebSocketServer({ server: server });
-    this.wss.on('connection', (ws) => this.handleConnection(ws));
+export default class ClientService {
+  constructor() {
+    this._clients = new Map();
+    this._buildQueue = [];
+    bus.on(CLIENT.CONNECTED, (id, ws) => this.add(id, ws));
+    bus.on(CLIENT.DISCONNECTED, (id) => this.remove(id));
   }
 
-  handleConnection(ws) {
-    let location = url.parse(ws.upgradeReq.url, true);
-    let id = shortid.generate();
-    if (location.path.match(/\/client/)) {
-      bus.emit(CLIENT.CONNECTED, id, ws);
-    } else if (location.path.match(/\/agent/)) {
-      bus.emit(AGENT.CONNECTED, id, ws);
-    }
+  add(id, ws) {
+    logger.info('New agent added with id', id);
+    let conn = new Client(ws, id);
+    this._clients.set(id, conn);
+  }
+
+  remove(id) {
+    logger.info('Client', id, 'disconnected');
+    this._clients.delete(id);
   }
 }
