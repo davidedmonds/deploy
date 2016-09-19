@@ -40,6 +40,6 @@ const agentService = new AgentService();
 const pipelineService = new PipelineService(agentService, pipelineDb);
 
 const rs = new RestServer(pipelineService);
-new WebSocket(rs._server, agentService);
+new WebSocket(rs._server);
 
 rs.start();

@@ -24,8 +24,7 @@ import { AGENT, CLIENT } from '../constants/actions';
 import { bus } from '../util/minibus';
 
 export default class WebSocket {
-  constructor(server, agentService) {
-    this.agentService = agentService;
+  constructor(server) {
     this.wss = new WebSocketServer({ server: server });
     this.wss.on('connection', (ws) => this.handleConnection(ws));
   }
