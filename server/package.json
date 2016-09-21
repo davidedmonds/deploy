@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "forever -f -c babel-node -t --watch --watchDirectory ./app/ ./app/initialize.js",
-    "test": "ava --require babel-register",
-    "watch:test": "ava --watch --require babel-register"
+    "test": "ava --require babel-register --require babel-polyfill",
+    "watch:test": "ava --watch --require babel-register --require babel-polyfill"
   },
   "dependencies": {
     "log4js": "^0.6.38",
