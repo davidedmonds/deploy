@@ -9,8 +9,9 @@
   },
   "scripts": {
     "start": "forever -f -c babel-node -t --watch --watchDirectory ./app/ ./app/initialize.js",
-    "test": "ava --require babel-register --require babel-polyfill",
-    "watch:test": "ava --watch --require babel-register --require babel-polyfill"
+    "report": "nyc report --reporter=html",
+    "test": "nyc ava",
+    "watch:test": "ava --watch"
   },
   "dependencies": {
     "log4js": "^0.6.38",
@@ -31,9 +32,14 @@
     "eslint-plugin-ava": "^3.0.0",
     "eslint-plugin-react": "^6.2.0",
     "forever": "^0.15.2",
+    "nyc": "^8.3.0",
     "testdouble": "^1.6.1"
   },
   "ava": {
-    "babel": "inherit"
+    "babel": "inherit",
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ]
   }
 }
